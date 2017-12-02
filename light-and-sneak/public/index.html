@@ -3,6 +3,7 @@
 <head>
     <title>Light and Sneak</title>
     <script src="//cdn.jsdelivr.net/npm/phaser-ce@2.9.2"></script>
+    <script src="/socket.io/socket.io.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
@@ -16,7 +17,9 @@
 
     // setting the canvas to be the width and height of the device
     var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS, '', { preload: preload, create: create, update: update });
-    
+
+    var socket = io();
+
     // this initilizes the game objects
     function preload() {
         game.load.image('player1', 'assets/player1.jpg');
