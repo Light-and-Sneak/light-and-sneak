@@ -13,6 +13,5 @@ server.listen(6969, function (){
 
 
 io.on ('connection', function (socket) {
-
   console.log("connected");
 });
