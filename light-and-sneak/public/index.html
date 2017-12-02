@@ -8,7 +8,7 @@
 <body>
 
 
-    
+<script type = "text/javascript" src = "Lights.js">   
 <script type="text/javascript">
 
     // create a global scall ratio that'll apply to all assets in the game
@@ -30,7 +30,8 @@
         game.add.sprite(game.world.centerX, game.world.centerY, 'player1');
 
         var walls = game.add.group();
-
+		var lightPacket = Lights(game);
+		lightPacket.setupBackground();
         // create the walls
         var wallBottom = walls.create(0, (game.world.height - 10), 'wall');
         var wallTop = walls.create(0,  -10, 'wall');
@@ -40,6 +41,7 @@
     }
     
     function update() {
+		lightPacket.lightUpdate();
     }
     
 </script>
