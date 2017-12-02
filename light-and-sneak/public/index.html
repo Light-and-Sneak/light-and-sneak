@@ -25,6 +25,8 @@
         game.load.image('wallSide', 'assets/wallSide.png');
         game.load.image('metalCrate', 'assets/crateMetal.png' );
         game.load.image('woodenCrate', 'assets/crateWood.png');
+
+	game.load.spritesheet('hiderSheet', 'assets/hider-spriteSheet.png',50,50);
     }
     var woodenCrate;
     var player;
@@ -45,7 +47,7 @@
 		
 		lightPacket.setupBackground();
 
-        player = new Player(game, 'player');
+        player = new Player(game, 'hiderSheet', true);
 
 
         var walls = game.add.physicsGroup();
@@ -88,6 +90,7 @@
         player.body.setZeroVelocity();
 
         player.checkKeys();
+	player.animate();
 
 
     }
