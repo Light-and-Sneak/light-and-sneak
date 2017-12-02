@@ -3,6 +3,7 @@
 <head>
     <title>Light and Sneak</title>
     <script src="//cdn.jsdelivr.net/npm/phaser-ce@2.9.2"></script>
+    <script src="./player.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
@@ -19,31 +20,92 @@
     var lightPacket = new Lights(game);
     // this initilizes the game objects
     function preload() {
-        game.load.image('player1', 'assets/player1.jpg');
+        game.load.image('player', 'assets/hider.png');
         game.load.image('background', 'assets/background.png');
         game.load.image('wall', 'assets/wall.png');
         game.load.image('wallSide', 'assets/wallSide.png');
+        game.load.image('metalCrate', 'assets/crateMetal.png' );
+        game.load.image('woodenCrate', 'assets/crateWood.png');
     }
     
+    var player;
+    var cursors;
+
     function create() {
+        // set the physics to be P2
+        game.physics.startSystem(Phaser.Physics.P2JS);
+        // set the friction of the game world
+        game.physics.p2.world.defaultContactMaterial.friction = 0.7;
+        game.physics.p2.world.setGlobalStiffness(1e5);
+
+
         game.add.sprite(0,0, 'background');
-        game.add.sprite(game.world.centerX, game.world.centerY, 'player1');
+
 
         var walls = game.add.group();
 		
 		lightPacket.setupBackground();
+
+        player = new Player(game, 'player');
+
+
+        var walls = game.add.physicsGroup();
+        
+
         // create the walls
         var wallBottom = walls.create(0, (game.world.height - 10), 'wall');
         var wallTop = walls.create(0,  -10, 'wall');
         var wallLeft = walls.create(-10,  0, 'wallSide');
         var wallRight = walls.create(game.world.width - 20,  0, 'wallSide');
+        game.physics.p2.enable(walls);
+
+        var worldMaterial = game.physics.p2.createMaterial('worldMaterial');
+        game.physics.p2.setWorldMaterial(worldMaterial, true, true, true, true);
+
+
+        // creating game 
+        var gameObjects = game.add.physicsGroup();
+        gameObjects.enableBody = true;
+        
+        for(var i = 0; i < 5; i++){
+         var metalCrate = gameObjects.create(game.world.centerX - (50 * i), game.world.centerY, 'metalCrate' );
+         
+         metalCrate.body.gravity.y = 300;
+        }
+        var woodenCrate  = game.add.sprite(game.world.centerX - (50 * i), game.world.centerY, 'woodenCrate' );
+        game.physics.p2.enable(woodenCrate);
+        woodenCrate.body.static = true;
+        //woodenCrate.addOnce(move, this);
+       // gameObjects[0].
+        
+        
       
+       cursors = game.input.keyboard.createCursorKeys();
     }
     
     function update() {
 		lightPacket.lightUpdate();
+
+        player.body.setZeroVelocity();
+
+        player.checkKeys();
+
+
     }
     
+
+    function move(){
+        sprite.body.moveTo(2000, 300, Phaser.ANGLE_RIGHT);
+
+    // sprite.body.stopVelocityOnCollide = false;
+    // sprite.body.moveTo(Phaser.ANGLE_RIGHT, 2000, 400);
+
+    // sprite.body.moveFrom(2000, 100, Phaser.ANGLE_RIGHT);
+    // sprite.body.moveFrom(2000, 100, 300);
+
+    startTime = game.time.time;
+    duration = 0;
+    }
 </script>
 
 </body>
