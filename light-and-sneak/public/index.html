@@ -4,6 +4,9 @@
     <title>Light and Sneak</title>
     <script src="//cdn.jsdelivr.net/npm/phaser-ce@2.9.2"></script>
     <script src="/socket.io/socket.io.js"></script>
+    <script src="./player.js"></script>
+    <script src="./dynamicObject.js"></script>
+    <script src="./staticObject.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
@@ -22,29 +25,69 @@
 
     // this initilizes the game objects
     function preload() {
-        game.load.image('player1', 'assets/player1.jpg');
+        game.load.image('player', 'assets/hider.png');
         game.load.image('background', 'assets/background.png');
         game.load.image('wall', 'assets/wall.png');
         game.load.image('wallSide', 'assets/wallSide.png');
+        game.load.image('metalCrate', 'assets/crateMetal.png' );
+        game.load.image('woodenCrate', 'assets/crateWood.png');
+
+	game.load.spritesheet('hiderSheet', 'assets/hider-spriteSheet.png',50,50);
     }
     
+    var player;
+    //var cursors;
+
     function create() {
-        game.add.sprite(0,0, 'background');
-        game.add.sprite(game.world.centerX, game.world.centerY, 'player1');
+        // set the physics to be P2
+        game.physics.startSystem(Phaser.Physics.P2JS);
+        // set the friction of the game world
+        game.physics.p2.world.defaultContactMaterial.friction = 1;
+        //game.physics.p2.restitution = 0.9;
+        game.physics.p2.world.setGlobalStiffness(1e5);
+        
+        background = game.add.sprite(0,0, 'background');
 
-        var walls = game.add.group();
+        player = new Player(game, 'hiderSheet', true);
 
+        var walls = game.add.physicsGroup();
+        
         // create the walls
         var wallBottom = walls.create(0, (game.world.height - 10), 'wall');
         var wallTop = walls.create(0,  -10, 'wall');
         var wallLeft = walls.create(-10,  0, 'wallSide');
         var wallRight = walls.create(game.world.width - 20,  0, 'wallSide');
-      
+        game.physics.p2.enable(walls);
+
+        var playerMaterial = game.physics.p2.createMaterial('playerMaterial', player.body);
+        var worldMaterial = game.physics.p2.createMaterial('worldMaterial');
+        var boxMaterial = game.physics.p2.createMaterial('worldMaterial');
+        game.physics.p2.setWorldMaterial(worldMaterial, true, true, true, true);
+
+
+        // creating game 
+        var gameObjects = game.add.physicsGroup();
+        gameObjects.enableBody = true;
+        
+        for(var i = 0; i < 5; i++){
+            metalCrate = new dynamicObject(game, 'metalCrate', game.world.centerX + (70 * i), game.world.centerY);
+            metalCrate.body.setMaterial(boxMaterial);
+        }
+
+        var woodenCrate  = new staticObject(game, 'woodenCrate', game.world.centerX - (50 * i), game.world.centerY);
+             
     }
     
     function update() {
+
+        player.body.setZeroVelocity();
+
+        player.checkKeys();
+	player.animate();
+
     }
     
+
 </script>
 
 </body>

@@ -10,8 +10,6 @@ server.listen(6969, function (){
   console.log ("SERVER START at http://localhost:6969/");
 });
 
-
-
 io.on ('connection', function (socket) {
   console.log("connected");
 });
