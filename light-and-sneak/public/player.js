@@ -2,6 +2,7 @@ function Player(game, sprite, isSeeker){
     player = game.add.sprite(200, 50, sprite);
     player.scale.setTo(0.6, 0.6);
     game.physics.p2.enable(player);
+    player.body.rotation = 180;
 
     var seeker = isSeeker;
     var moving = false;
@@ -16,15 +17,17 @@ function Player(game, sprite, isSeeker){
 
     player.checkKeys = function(){
         if (cursors.left.isDown) {
-            player.body.moveLeft(SPEED);
+            player.body.rotateLeft(100);
         } else if (cursors.right.isDown) {
-            player.body.moveRight(SPEED);
-        }
+            player.body.rotateRight(100);
+        } else {
+	    player.body.setZeroRotation();
+	}
 
         if (cursors.up.isDown) {
-            player.body.moveUp(SPEED);
+            player.body.moveForward(SPEED);
         } else if (cursors.down.isDown) {
-            player.body.moveDown(SPEED);
+            player.body.moveBackward(SPEED);
         }
     };
 
