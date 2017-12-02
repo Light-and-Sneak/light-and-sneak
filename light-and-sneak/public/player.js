@@ -2,7 +2,6 @@ function Player(game, sprite, isSeeker){
     player = game.add.sprite(200, 50, sprite);
     player.scale.setTo(0.6, 0.6);
     game.physics.p2.enable(player);
-    player.body.rotation = 180;
 
     var seeker = isSeeker;
     var moving = false;
