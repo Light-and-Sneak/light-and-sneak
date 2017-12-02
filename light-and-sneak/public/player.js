@@ -3,6 +3,8 @@ function Player(game, sprite){
     player.scale.setTo(0.25, 0.25);
     game.physics.p2.enable(player);
 
+    cursors = game.input.keyboard.createCursorKeys();
+
 
     player.checkKeys = function(){
         if (cursors.left.isDown) {
