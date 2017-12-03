@@ -42,3 +42,24 @@ function Player(game, width, height, sprite){
 
     return player;
 }
+
+
+// concreate player classes 
+function Seeker(game, width, height, animSpeed, sprite){
+  seeker = new Player(game, width, height, animSpeed, sprite); 
+  seeker.SPEED = 90;
+  seeker.ANIM_SPEED = 5;
+  this.coinCount = 0;
+  this.name = "seeker";
+
+  return seeker;
+}
+
+function Hider(game, width, height, animSpeed, sprite){
+  hider = new Player(game, width, height, animSpeed, sprite); 
+  hider.SPEED = 90;
+  hider.ANIM_SPEED = 5;
+  this.name = "hider";
+
+  return hider;
+}

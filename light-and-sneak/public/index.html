@@ -4,8 +4,6 @@
     <title>Light and Sneak</title>
     <script src="//cdn.jsdelivr.net/npm/phaser-ce@2.9.2"></script>
     <script src="./player.js"></script>
-    <script src="./hider.js"></script>
-    <script src="./seeker.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
@@ -46,8 +44,8 @@
 
         game.add.sprite(0,0, 'background');
 
-        //hider = new Hider(game, 200, 50, 'hiderSheet');
-        seeker = new Seeker(game, 100, 50, 'seekerSheet');
+        hider = new Hider(game, 200, 50, 'hiderSheet');
+        //seeker = new Seeker(game, 100, 50, 'seekerSheet');
 
 
         var walls = game.add.physicsGroup();
