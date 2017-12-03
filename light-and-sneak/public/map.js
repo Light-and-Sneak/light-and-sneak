@@ -1,36 +1,78 @@
-function createMap(game){
+function createWalls(game){
 
-    walls = game.add.group();
- 
-    for (var i = 0; i < 4; i++){
-        wall = new staticObject(game, 'wall', (i * 50), (game.world.height / 3));
-        walls.add(wall);
+    walls = Array();
+
+   
+    // top walls
+    for (var i = 0; i < 3; i++){
+        wallTop = new staticObject(game, 'wall', 175, (0 + (50 * i)));
+        wallTop.scale.setTo(1,1);
+        wallTop.body.angle = 90;
+
+        wallBottom = new staticObject(game, 'wall', 175, (game.world.height - (50 * i)));
+        wallBottom.scale.setTo(1,1);
+        wallBottom.body.angle = 90;
+        walls.push(wallTop);
+        walls.push(wallBottom);
     }
 
-    for (var i = 0; i < 4; i++){
-        wall = new staticObject(game, 'wall', 250, (250 + (50 * i)));
-        wall.body.angle = 90;
-        walls.add(wall);
+     // center walls
+     for (var i = 0; i < 3; i++){
+        wallLeft = new staticObject(game, 'wall', (game.world.width / 3) + 25 , ((game.world.height / 3) + (50 * i)));
+        wallLeft.body.angle = 90;
+        wallLeft.scale.setTo(1,1);
+
+        wallRight = new staticObject(game, 'wall', ((game.world.width / 3) * 2) - 10 , ((game.world.height / 3) + (50 * i)));
+        wallRight.body.angle = 90;
+        wallRight.scale.setTo(1,1);
+        walls.push(wallLeft);
+        walls.push(wallRight);
     }
 
-    for (var i = 0; i < 4; i++){
-        wall = new staticObject(game, 'wall', game.world.centerX - 50, (0 + (50 * i)));
-        wall.body.angle = 90;
-        walls.add(wall);
+    // bottom walls
+    for (var i = 0; i < 3; i++){
+        wallTop = new staticObject(game, 'wall', game.world.width - 175, (0 + (50 * i)));
+        wallTop.scale.setTo(1,1);
+        wallTop.body.angle = 90;
+
+        wallBottom = new staticObject(game, 'wall', game.world.width - 175, (game.world.height - (50 * i)));
+        wallBottom.scale.setTo(1,1);
+        wallBottom.body.angle = 90;
+        walls.push(wallTop);
+        walls.push(wallBottom);
     }
 
-
-    for (var i = 0; i < 4; i++){
-        wall = new staticObject(game, 'wall', (575 - (i * 50)), 225);
-        walls.add(wall);
-    }
-
-    for (var i = 0; i < 4; i++){
-        wall = new staticObject(game, 'wall', 600, (250 + (50 * i)));
-        wall.body.angle = 90;
-        console.log(wall);
-        walls.add(wall);
-    }
-    
     console.log(walls);
+
+    return walls;
 };
+
+
+function createObjects(){
+    var gameObjects = Array();
+    
+    for(var i = 0; i < 2; i++){
+        spaceCrate = new dynamicObject(game, 'spaceCrate', game.world.centerX + (80 * i), game.world.centerY - 50);
+        metalCrate = new staticObject(game, 'metalCrate_01', game.world.centerX + (50 * i), game.world.centerY + 50);
+        gameObjects.push(spaceCrate);
+        gameObjects.push(metalCrate);
+    }
+
+
+    gameObjects.push(new staticObject(game, 'metalCrate_01', 210, 350));
+    gameObjects.push(new dynamicObject(game, 'spaceCrate', 260, 350));
+    gameObjects.push(new staticObject(game, 'metalCrate_06', 470, 350));
+    gameObjects.push(new dynamicObject(game, 'spaceCrate', 520, 350));
+    gameObjects.push(new staticObject(game, 'metalCrate_01', 310, 50));
+    gameObjects.push(new dynamicObject(game, 'spaceCrate', 360, 50));
+    gameObjects.push(new staticObject(game, 'metalCrate_03', 470, 50));
+    gameObjects.push(new dynamicObject(game, 'metalCrate_01', 520, 50));
+    gameObjects.push(new dynamicObject(game, 'metalCrate_04', 50, 75));
+    gameObjects.push(new dynamicObject(game, 'metalCrate_05', 120, 75));
+    gameObjects.push(new staticObject(game, 'metalCrate_02', 600, 300));
+    gameObjects.push(new dynamicObject(game, 'metalCrate_02', 650, 350));
+    gameObjects.push(new dynamicObject(game, 'spaceCrate', 700, 50));
+    
+
+    return gameObjects;
+}
