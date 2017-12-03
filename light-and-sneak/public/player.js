@@ -41,19 +41,19 @@ function Player(game, width, height, sprite){
       }
     }; //end update()
 
-
-	    player.animate = function(){
-	    if (cursors.left.isDown ||
-	        cursors.right.isDown ||
-	        cursors.up.isDown ||
-	        cursors.down.isDown)
-	    {
-	        player.animations.play('walk', 10, true);
-	    }
-	    else {
-        player.animations.stop();
-      }
-    };
+    //
+	   //  player.animate = function(){
+	   //  if (cursors.left.isDown ||
+	   //      cursors.right.isDown ||
+	   //      cursors.up.isDown ||
+	   //      cursors.down.isDown)
+	   //  {
+	   //      player.animations.play('walk', 10, true);
+	   //  }
+	   //  else {
+    //     player.animations.stop();
+    //   }
+    // };
 	
 	   player.checkKeys = function(){
         if (cursors.left.isDown) {
