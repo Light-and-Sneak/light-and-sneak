@@ -1,20 +1,43 @@
-function Player(game, sprite){
-    player = game.add.sprite(50, 50, sprite);
-    player.scale.setTo(0.25, 0.25);
+function Player(game, sprite, isSeeker){
+    player = game.add.sprite(200, 50, sprite);
+    player.scale.setTo(0.6, 0.6);
     game.physics.p2.enable(player);
+
+    var seeker = isSeeker;
+    var moving = false;
+    var SPEED = 200;
+
+    var walk = player.animations.add('walk');
+
+    if (seeker) {
+        SPEED = 100;
+    }
 
 
     player.checkKeys = function(){
         if (cursors.left.isDown) {
-            player.body.moveLeft(200);
+            player.body.rotateLeft(100);
         } else if (cursors.right.isDown) {
-            player.body.moveRight(200);
-        }
+            player.body.rotateRight(100);
+        } else {
+	    player.body.setZeroRotation();
+	}
 
         if (cursors.up.isDown) {
-            player.body.moveUp(200);
+            player.body.moveForward(SPEED);
         } else if (cursors.down.isDown) {
-            player.body.moveDown(200);
+            player.body.moveBackward(SPEED);
+        }
+    };
+
+    player.animate = function(){
+	if (cursors.left.isDown || 
+	    cursors.right.isDown ||
+	    cursors.up.isDown ||
+	    cursors.down.isDown) {
+	  player.animations.play('walk', 10, true);
+	}else{
+	  player.animations.stop();
         }
     };
 
