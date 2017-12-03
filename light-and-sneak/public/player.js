@@ -16,7 +16,6 @@ function Player(game, sprite, isSeeker){
         SPEED = 100;
     }
 
-
     player.checkKeys = function(){
         if (cursors.left.isDown) {
             player.body.moveLeft(SPEED);
@@ -32,14 +31,16 @@ function Player(game, sprite, isSeeker){
     };
 
     player.animate = function(){
-	if (cursors.left.isDown || 
-	    cursors.right.isDown ||
-	    cursors.up.isDown ||
-	    cursors.down.isDown) {
-	  player.animations.play('walk', 10, true);
-	}else{
-	  player.animations.stop();
-        }
+	    if (cursors.left.isDown ||
+	        cursors.right.isDown ||
+	        cursors.up.isDown ||
+	        cursors.down.isDown)
+	    {
+	        player.animations.play('walk', 10, true);
+	    }
+	    else {
+        player.animations.stop();
+      }
     };
 
 
