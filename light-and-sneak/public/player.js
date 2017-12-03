@@ -42,19 +42,32 @@ function Player(game, width, height, sprite){
     }; //end update()
 
 
-
-    return player;
-}
-
-
-    player.checkKeys = function(){
+	    player.animate = function(){
+	    if (cursors.left.isDown ||
+	        cursors.right.isDown ||
+	        cursors.up.isDown ||
+	        cursors.down.isDown)
+	    {
+	        player.animations.play('walk', 10, true);
+	    }
+	    else {
+        player.animations.stop();
+      }
+    };
+	
+	   player.checkKeys = function(){
         if (cursors.left.isDown) {
             player.body.moveLeft(SPEED);
         } else if (cursors.right.isDown) {
             player.body.moveRight(SPEED);
         }
 
+	};
+    return player;
+}
 
+
+ 
 // concreate player classes 
 function Seeker(game, width, height, animSpeed, sprite){
   seeker = new Player(game, width, height, animSpeed, sprite); 
@@ -67,18 +80,7 @@ function Seeker(game, width, height, animSpeed, sprite){
   return seeker;
 }
 
-    player.animate = function(){
-	    if (cursors.left.isDown ||
-	        cursors.right.isDown ||
-	        cursors.up.isDown ||
-	        cursors.down.isDown)
-	    {
-	        player.animations.play('walk', 10, true);
-	    }
-	    else {
-        player.animations.stop();
-      }
-    };
+
 
 
 function Hider(game, width, height, animSpeed, sprite){
@@ -89,3 +91,4 @@ function Hider(game, width, height, animSpeed, sprite){
 
   return hider;
 }
+	

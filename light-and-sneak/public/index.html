@@ -71,36 +71,36 @@
         game.physics.p2.world.setGlobalStiffness(1e5);
         
         background = game.add.sprite(0,0, 'background');
-        background.scale.setTo (game.world.width, game.world.height);
+        
 
 
         //hider = new Hider(game, 200, 50, 'hiderSheet');
-        //seeker = new Seeker(game, 100, 50, 'seekerSheet');
+        seeker = new Seeker(game, 100, 50, 'seekerSheet');
 
         createMap(game);
         
 
-        player = new Player(game, 'hiderSheet', true);
+        //player = new Player(game, 'hiderSheet', true);
         socket.emit('new_player', {x: 0, y: 0});
 
         //listeners
-        socket.on('add_player', addPlayer);
+        //socket.on('add_player', addPlayer);
 
 
 
         //var walls = game.add.physicsGroup();
 
-        game.add.sprite(0,0, 'background');
+        
 		
 
         var walls = game.add.group();
 		
 		lightPacket.setupBackground();
 
-        player = new Player(game, 'hiderSheet', true);
+        //player = new Player(game, 'hiderSheet', true);
 
 
-        hider = new Hider(game, 200, 50, 'hiderSheet');
+        //hider = new Hider(game, 200, 50, 'hiderSheet');
         //seeker = new Seeker(game, 100, 50, 'seekerSheet');
 
 
@@ -137,7 +137,7 @@
       
        cursors = game.input.keyboard.createCursorKeys();
 
-        var woodenCrate  = new staticObject(game, 'woodenCrate', game.world.centerX - (50 * i), game.world.centerY);
+        //var woodenCrate  = new staticObject(game, 'woodenCrate', game.world.centerX - (50 * i), game.world.centerY);
         
 
     }
@@ -146,13 +146,9 @@
     function update () {
 
 
-        player.body.setZeroVelocity();
-        player.checkKeys();
-	      player.animate();
+        
 
-        player2.body.setZeroVelocity();
-        player2.checkKeys();
-        player2.animate();
+        
 
 		lightPacket.lightUpdate(woodenCrate, player);
 
