@@ -3,10 +3,15 @@ function Player(game, width, height, sprite){
     player.scale.setTo(0.6, 0.6);
     game.physics.p2.enable(player);
 
+
     player.SPEED = 140;
     player.ROTATION_SPEED = 100;
     player.ANIM_SPEED = 10;
     walk = player.animations.add('walk');
+
+    cursors = game.input.keyboard.createCursorKeys();
+
+
 
 
     player.update = function(){
