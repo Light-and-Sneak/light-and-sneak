@@ -1,7 +1,7 @@
 //hider.js
 
-function Hider(game, sprite){
-    hider = new Player(game, sprite);  
+function Hider(game, width, height, sprite){
+    hider = new Player(game, width, height, sprite);  
 
     return hider;
 }

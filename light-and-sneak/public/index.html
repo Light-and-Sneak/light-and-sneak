@@ -5,6 +5,7 @@
     <script src="//cdn.jsdelivr.net/npm/phaser-ce@2.9.2"></script>
     <script src="./player.js"></script>
     <script src="./hider.js"></script>
+    <script src="./seeker.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
@@ -21,17 +22,18 @@
     
     // this initilizes the game objects
     function preload() {
-        game.load.image('hider', 'assets/hider.png');
+        //game.load.image('hider', 'assets/hider.png');
         game.load.image('background', 'assets/background.png');
         game.load.image('wall', 'assets/wall.png');
         game.load.image('wallSide', 'assets/wallSide.png');
         game.load.image('metalCrate', 'assets/crateMetal.png' );
         game.load.image('woodenCrate', 'assets/crateWood.png');
-
-	game.load.spritesheet('hiderSheet', 'assets/hider-spriteSheet.png',50,50);
+        game.load.spritesheet('hiderSheet', 'assets/hider-spriteSheet.png',50,50);
+        game.load.spritesheet('seekerSheet', 'assets/seeker-spriteSheet.png',50,50);
     }
     
     var hider;
+    var seeker;
     var cursors;
 
     function create() {
@@ -44,7 +46,8 @@
 
         game.add.sprite(0,0, 'background');
 
-        hider = new Hider(game, 'hiderSheet');
+        //hider = new Hider(game, 200, 50, 'hiderSheet');
+        seeker = new Seeker(game, 100, 50, 'seekerSheet');
 
 
         var walls = game.add.physicsGroup();
@@ -83,7 +86,8 @@
     
     function update() {
 
-        hider.update();
+        //hider.update();
+        //seeker.update();
 
     }
     
