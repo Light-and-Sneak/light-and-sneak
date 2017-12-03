@@ -33,11 +33,16 @@
         game.load.image('woodenCrate', 'assets/crateWood.png');
         game.load.spritesheet('hiderSheet', 'assets/hider-spriteSheet.png',50,50);
         game.load.spritesheet('seekerSheet', 'assets/seeker-spriteSheet.png',50,50);
+	game.load.spritesheet('buttonhorizontal', 'assets/button-horizontal.png',96,64);
     }
 
     var hider;
     var seeker;
     var cursors;
+
+    /*var cw; // cw, ccw, and forward used for movement with the virtual buttons
+    var ccw;
+    var forward;*/
 
 
     function create() {
@@ -78,6 +83,15 @@
         }
 
         var woodenCrate  = new staticObject(game, 'woodenCrate', game.world.centerX - (50 * i), game.world.centerY);
+
+	
+	// create movement buttons
+	buttonleft = game.add.button(0, 362, 'buttonhorizontal', null, this, 0, 1, 0, 1);
+        //buttonleft.fixedToCamera = true;
+        buttonleft.events.onInputOver.add(function(){hider.ccw=true;});
+	buttonleft.events.onInputOut.add(function(){hider.ccw=false;});
+        buttonleft.events.onInputDown.add(function(){hider.ccw=true;});
+        buttonleft.events.onInputUp.add(function(){hider.ccw=false;});
              
     }
     

@@ -3,6 +3,9 @@ function Player(game, width, height, sprite){
     player.scale.setTo(0.6, 0.6);
     game.physics.p2.enable(player);
 
+    player.ccw = false;
+    player.cw = false;
+    player.forward = false;
 
     player.SPEED = 140;
     player.ROTATION_SPEED = 100;
@@ -12,10 +15,18 @@ function Player(game, width, height, sprite){
     cursors = game.input.keyboard.createCursorKeys();
 
 
-
-
+    //COMMENTED CODE USES KEYBOARD INPUT
     player.update = function(){
+      
+      if (player.ccw == true) {
+	player.body.rotateLeft(player.ROTATION_SPEED);
+      }
+      else {
+	player.body.setZeroRotation();
+      }
+      /*
       if (cursors.left.isDown) {
+      
         player.body.rotateLeft(player.ROTATION_SPEED);
       }
       else if (cursors.right.isDown) {
@@ -31,7 +42,7 @@ function Player(game, width, height, sprite){
       else if (cursors.down.isDown) {
         player.body.moveBackward(player.SPEED);
       }
-       
+      
       if (cursors.left.isDown || 
 	        cursors.right.isDown ||
 	        cursors.up.isDown ||
@@ -42,14 +53,17 @@ function Player(game, width, height, sprite){
 	      player.animations.stop();
         player.body.setZeroVelocity();
       }
+      */
+      
     }; //end update()
+    
 
 
     return player;
 }
 
 
-// concreate player classes 
+// concrete player classes 
 function Seeker(game, width, height, animSpeed, sprite){
   seeker = new Player(game, width, height, animSpeed, sprite); 
   seeker.SPEED = 90;
