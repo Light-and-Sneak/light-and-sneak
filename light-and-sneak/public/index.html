@@ -4,6 +4,7 @@
     <title>Light and Sneak</title>
     <script src="//cdn.jsdelivr.net/npm/phaser-ce@2.9.2"></script>
     <script src="./player.js"></script>
+    <script src="./hider.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
@@ -20,7 +21,7 @@
     
     // this initilizes the game objects
     function preload() {
-        game.load.image('player', 'assets/hider.png');
+        game.load.image('hider', 'assets/hider.png');
         game.load.image('background', 'assets/background.png');
         game.load.image('wall', 'assets/wall.png');
         game.load.image('wallSide', 'assets/wallSide.png');
@@ -30,7 +31,7 @@
 	game.load.spritesheet('hiderSheet', 'assets/hider-spriteSheet.png',50,50);
     }
     
-    var player;
+    var hider;
     var cursors;
 
     function create() {
@@ -43,7 +44,7 @@
 
         game.add.sprite(0,0, 'background');
 
-        player = new Player(game, 'hiderSheet', true);
+        hider = new Hider(game, 'hiderSheet');
 
 
         var walls = game.add.physicsGroup();
@@ -82,10 +83,7 @@
     
     function update() {
 
-        player.body.setZeroVelocity();
-
-        player.checkKeys();
-	player.animate();
+        hider.update();
 
     }
     
