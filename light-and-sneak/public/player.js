@@ -14,18 +14,15 @@ function Player(game, width, height, sprite){
     player.update = function(){
       if (cursors.left.isDown) {
         player.body.rotateLeft(player.ROTATION_SPEED);
-      }
-      else if (cursors.right.isDown) {
+      } else if (cursors.right.isDown) {
         player.body.rotateRight(player.ROTATION_SPEED);
-      }
-      else {
+      } else {
 	      player.body.setZeroRotation();
 	    }
 
       if (cursors.up.isDown) {
         player.body.moveForward(player.SPEED);
-      } 
-      else if (cursors.down.isDown) {
+      } else if (cursors.down.isDown) {
         player.body.moveBackward(player.SPEED);
       }
        
@@ -34,25 +31,41 @@ function Player(game, width, height, sprite){
 	        cursors.up.isDown ||
 	        cursors.down.isDown) {
 	      player.animations.play('walk', player.ANIM_SPEED, true);
-	    }
-      else {
+	    } else {
 	      player.animations.stop();
         player.body.setZeroVelocity();
       }
     }; //end update()
 
 
+    player.checkKeys = function(){
+      if (cursors.left.isDown) {
+          player.body.moveLeft(SPEED);
+      } else if (cursors.right.isDown) {
+          player.body.moveRight(SPEED);
+      }
+    };
+
+
+
+    player.animate = function(){
+	    if (cursors.left.isDown ||
+	        cursors.right.isDown ||
+	        cursors.up.isDown ||
+	        cursors.down.isDown)
+	    {
+	        player.animations.play('walk', 10, true);
+	    } else {
+        player.animations.stop();
+      }
+    };
+
 
     return player;
 }
 
 
-    player.checkKeys = function(){
-        if (cursors.left.isDown) {
-            player.body.moveLeft(SPEED);
-        } else if (cursors.right.isDown) {
-            player.body.moveRight(SPEED);
-        }
+  
 
 
 // concreate player classes 
@@ -67,18 +80,6 @@ function Seeker(game, width, height, animSpeed, sprite){
   return seeker;
 }
 
-    player.animate = function(){
-	    if (cursors.left.isDown ||
-	        cursors.right.isDown ||
-	        cursors.up.isDown ||
-	        cursors.down.isDown)
-	    {
-	        player.animations.play('walk', 10, true);
-	    }
-	    else {
-        player.animations.stop();
-      }
-    };
 
 
 function Hider(game, width, height, animSpeed, sprite){

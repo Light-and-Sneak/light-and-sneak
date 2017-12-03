@@ -28,9 +28,7 @@ function createMap(game){
     for (var i = 0; i < 4; i++){
         wall = new staticObject(game, 'wall', 600, (250 + (50 * i)));
         wall.body.angle = 90;
-        console.log(wall);
         walls.add(wall);
     }
     
-    console.log(walls);
 };

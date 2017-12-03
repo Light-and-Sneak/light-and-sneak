@@ -65,7 +65,7 @@
         game.physics.p2.world.setGlobalStiffness(1e5);
         
         background = game.add.sprite(0,0, 'background');
-        background.scale.setTo (game.world.width, game.world.height);
+        
 
 
         //hider = new Hider(game, 200, 50, 'hiderSheet');
@@ -74,11 +74,17 @@
         createMap(game);
         
 
-        player = new Player(game, 'hiderSheet', true);
-        socket.emit('new_player', {x: 0, y: 0});
+        // player = new Player(game, 'hiderSheet', true);
+        // socket.emit('new_player', {x: 0, y: 0});
+        socket.on('connect', (response) => {
+            console.log('this is the response for the server: ' + response);
+            // if first connect, create seeker
+            // if second connect, create hider
+            
+        });
 
         //listeners
-        socket.on('add_player', addPlayer);
+        //socket.on('add_player', addPlayer);
 
 
 
@@ -115,13 +121,13 @@
     function update () {
 
 
-        player.body.setZeroVelocity();
-        player.checkKeys();
-	      player.animate();
+        // player.body.setZeroVelocity();
+        // player.checkKeys();
+	    //   player.animate();
 
-        player2.body.setZeroVelocity();
-        player2.checkKeys();
-        player2.animate();
+        // player2.body.setZeroVelocity();
+        // player2.checkKeys();
+        // player2.animate();
 
 
     }

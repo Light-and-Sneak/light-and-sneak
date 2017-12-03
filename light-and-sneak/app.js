@@ -15,6 +15,7 @@ var players = [];
 io.on ('connection', function (socket) {
   console.log("connected");
 
+
   //Check for a new player, and create an object for it.
   socket.on('new_player', function (data) {
     //Create the new player
