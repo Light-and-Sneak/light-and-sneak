@@ -3,8 +3,18 @@ function Player(game, sprite){
     player.scale.setTo(0.6, 0.6);
     game.physics.p2.enable(player);
 
-    var SPEED = 150;
+
+
     var ROTATION_SPEED = 100;
+
+
+    cursors = game.input.keyboard.createCursorKeys();
+
+    var seeker = isSeeker;
+    var moving = false;
+    var SPEED = 200;
+
+
     var walk = player.animations.add('walk');
 
 
