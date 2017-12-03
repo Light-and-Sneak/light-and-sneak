@@ -5,12 +5,9 @@
     <script src="//cdn.jsdelivr.net/npm/phaser-ce@2.9.2"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="./player.js"></script>
-<<<<<<< HEAD
-    <script src="./hider.js"></script>
-=======
->>>>>>> master
     <script src="./dynamicObject.js"></script>
     <script src="./staticObject.js"></script>
+    <script src="./map.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
@@ -31,12 +28,14 @@
     function preload() {
         //game.load.image('hider', 'assets/hider.png');
         game.load.image('background', 'assets/background.png');
-        game.load.image('wall', 'assets/wall.png');
-        game.load.image('wallSide', 'assets/wallSide.png');
-        game.load.image('metalCrate', 'assets/crateMetal.png' );
+        // game.load.image('wall', 'assets/wall.png');
+        // game.load.image('wallSide', 'assets/wallSide.png');
+        game.load.image('metalCrate', 'assets/crateMetal_01.png' );
         game.load.image('woodenCrate', 'assets/crateWood.png');
+        game.load.image('wall', 'assets/wallTile.png')
         game.load.spritesheet('hiderSheet', 'assets/hider-spriteSheet.png',50,50);
         game.load.spritesheet('seekerSheet', 'assets/seeker-spriteSheet.png',50,50);
+        
     }
 
     var hider;
@@ -56,14 +55,17 @@
         hider = new Hider(game, 200, 50, 'hiderSheet');
         //seeker = new Seeker(game, 100, 50, 'seekerSheet');
 
-        var walls = game.add.physicsGroup();
+        createMap(game);
+        
+
+        //var walls = game.add.physicsGroup();
         
         // create the walls
-        var wallBottom = walls.create(0, (game.world.height - 10), 'wall');
-        var wallTop = walls.create(0,  -10, 'wall');
-        var wallLeft = walls.create(-10,  0, 'wallSide');
-        var wallRight = walls.create(game.world.width - 20,  0, 'wallSide');
-        game.physics.p2.enable(walls);
+        // var wallBottom = walls.create(0, (game.world.height - 10), 'wall');
+        // var wallTop = walls.create(0,  -10, 'wall');
+        // var wallLeft = walls.create(-10,  0, 'wallSide');
+        // var wallRight = walls.create(game.world.width - 20,  0, 'wallSide');
+        // game.physics.p2.enable(walls);
 
         var playerMaterial = game.physics.p2.createMaterial('playerMaterial', player.body);
         var worldMaterial = game.physics.p2.createMaterial('worldMaterial');
@@ -76,12 +78,13 @@
         gameObjects.enableBody = true;
         
         for(var i = 0; i < 5; i++){
-            metalCrate = new dynamicObject(game, 'metalCrate', game.world.centerX + (70 * i), game.world.centerY);
+            metalCrate = new dynamicObject(game, 'metalCrate', game.world.centerX + (70 * i), game.world.centerY - 50);
             metalCrate.body.setMaterial(boxMaterial);
         }
 
         var woodenCrate  = new staticObject(game, 'woodenCrate', game.world.centerX - (50 * i), game.world.centerY);
-             
+        
+
     }
     
     function update() {
