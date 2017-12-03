@@ -20,7 +20,7 @@
     var scaleRatio = window.devicePixelRatio / 3;
 
     // setting the canvas to be the width and height of the device
-    var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS, '', { preload: preload, create: create, update: update });
+    var game = new Phaser.Game(736, 414, Phaser.CANVAS, '', { preload: preload, create: create, update: update });
 
     var socket = io();
 
@@ -28,10 +28,14 @@
     function preload() {
         //game.load.image('hider', 'assets/hider.png');
         game.load.image('background', 'assets/background.png');
-        // game.load.image('wall', 'assets/wall.png');
-        // game.load.image('wallSide', 'assets/wallSide.png');
-        game.load.image('metalCrate', 'assets/crateMetal_01.png' );
+        game.load.image('metalCrate_01', 'assets/crateMetal_01.png' );
+        game.load.image('metalCrate_02', 'assets/crateMetal_02.png' );
+        game.load.image('metalCrate_03', 'assets/crateMetal_03.png' );
+        game.load.image('metalCrate_04', 'assets/crateMetal_04.png' );
+        game.load.image('metalCrate_05', 'assets/crateMetal_05.png' );
+        game.load.image('metalCrate_06', 'assets/crateMetal_06.png' );
         game.load.image('woodenCrate', 'assets/crateWood.png');
+        game.load.image('spaceCrate', 'assets/spaceCrate.png');
         game.load.image('wall', 'assets/wallTile.png')
         game.load.spritesheet('hiderSheet', 'assets/hider-spriteSheet.png',50,50);
         game.load.spritesheet('seekerSheet', 'assets/seeker-spriteSheet.png',50,50);
@@ -67,7 +71,7 @@
         // var wallRight = walls.create(game.world.width - 20,  0, 'wallSide');
         // game.physics.p2.enable(walls);
 
-        var playerMaterial = game.physics.p2.createMaterial('playerMaterial', player.body);
+    
         var worldMaterial = game.physics.p2.createMaterial('worldMaterial');
         var boxMaterial = game.physics.p2.createMaterial('worldMaterial');
         game.physics.p2.setWorldMaterial(worldMaterial, true, true, true, true);
@@ -78,7 +82,8 @@
         gameObjects.enableBody = true;
         
         for(var i = 0; i < 5; i++){
-            metalCrate = new dynamicObject(game, 'metalCrate', game.world.centerX + (70 * i), game.world.centerY - 50);
+            metalCrate = new dynamicObject(game, 'metalCrate_0' + (i + 1), game.world.centerX + (70 * i), game.world.centerY - 50);
+            metalCrate.scale.setTo(0.75, 0.75);
             metalCrate.body.setMaterial(boxMaterial);
         }
 
@@ -89,11 +94,12 @@
     
     function update() {
 
-        hider.update();
+        //hider.update();
         //seeker.update();
 
     }
     
+
 
 </script>
 
