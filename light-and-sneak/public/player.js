@@ -11,9 +11,6 @@ function Player(game, width, height, sprite){
 
     cursors = game.input.keyboard.createCursorKeys();
 
-
-
-
     player.update = function(){
       if (cursors.left.isDown) {
         player.body.rotateLeft(player.ROTATION_SPEED);
@@ -45,8 +42,17 @@ function Player(game, width, height, sprite){
     }; //end update()
 
 
+
     return player;
 }
+
+
+    player.checkKeys = function(){
+        if (cursors.left.isDown) {
+            player.body.moveLeft(SPEED);
+        } else if (cursors.right.isDown) {
+            player.body.moveRight(SPEED);
+        }
 
 
 // concreate player classes 
@@ -57,8 +63,23 @@ function Seeker(game, width, height, animSpeed, sprite){
   this.coinCount = 0;
   this.name = "seeker";
 
+
   return seeker;
 }
+
+    player.animate = function(){
+	    if (cursors.left.isDown ||
+	        cursors.right.isDown ||
+	        cursors.up.isDown ||
+	        cursors.down.isDown)
+	    {
+	        player.animations.play('walk', 10, true);
+	    }
+	    else {
+        player.animations.stop();
+      }
+    };
+
 
 function Hider(game, width, height, animSpeed, sprite){
   hider = new Player(game, width, height, animSpeed, sprite); 

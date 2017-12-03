@@ -7,6 +7,7 @@
     <script src="./player.js"></script>
     <script src="./dynamicObject.js"></script>
     <script src="./staticObject.js"></script>
+    <script src="./map.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
@@ -18,7 +19,8 @@
     // create a global scall ratio that'll apply to all assets in the game
     var scaleRatio = window.devicePixelRatio / 3;
     // setting the canvas to be the width and height of the device
-    var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS, '', { preload: preload, create: create, update: update });
+
+    var game = new Phaser.Game(736, 414, Phaser.CANVAS, '', { preload: preload, create: create, update: update });
 
     var lightPacket = new Lights(game);
 
@@ -29,12 +31,18 @@
     function preload() {
         //game.load.image('hider', 'assets/hider.png');
         game.load.image('background', 'assets/background.png');
-        game.load.image('wall', 'assets/wall.png');
-        game.load.image('wallSide', 'assets/wallSide.png');
-        game.load.image('metalCrate', 'assets/crateMetal.png' );
+        game.load.image('metalCrate_01', 'assets/crateMetal_01.png' );
+        game.load.image('metalCrate_02', 'assets/crateMetal_02.png' );
+        game.load.image('metalCrate_03', 'assets/crateMetal_03.png' );
+        game.load.image('metalCrate_04', 'assets/crateMetal_04.png' );
+        game.load.image('metalCrate_05', 'assets/crateMetal_05.png' );
+        game.load.image('metalCrate_06', 'assets/crateMetal_06.png' );
         game.load.image('woodenCrate', 'assets/crateWood.png');
+        game.load.image('spaceCrate', 'assets/spaceCrate.png');
+        game.load.image('wall', 'assets/wallTile.png')
         game.load.spritesheet('hiderSheet', 'assets/hider-spriteSheet.png',50,50);
         game.load.spritesheet('seekerSheet', 'assets/seeker-spriteSheet.png',50,50);
+        
     }
 
     var woodenCrate;
@@ -44,6 +52,14 @@
     var hider;
     var seeker;
     var cursors;
+
+	    //game.load.spritesheet('hiderSheet', 'assets/hider-spriteSheet.png',50,50);
+   
+    
+    var player;
+    var player2;
+
+    //var cursors;
 
 
     function create() {
@@ -55,8 +71,24 @@
         game.physics.p2.world.setGlobalStiffness(1e5);
         
         background = game.add.sprite(0,0, 'background');
+        background.scale.setTo (game.world.width, game.world.height);
 
 
+        //hider = new Hider(game, 200, 50, 'hiderSheet');
+        //seeker = new Seeker(game, 100, 50, 'seekerSheet');
+
+        createMap(game);
+        
+
+        player = new Player(game, 'hiderSheet', true);
+        socket.emit('new_player', {x: 0, y: 0});
+
+        //listeners
+        socket.on('add_player', addPlayer);
+
+
+
+        //var walls = game.add.physicsGroup();
 
         game.add.sprite(0,0, 'background');
 		
@@ -73,15 +105,16 @@
 
 
         var walls = game.add.physicsGroup();
+
         
         // create the walls
-        var wallBottom = walls.create(0, (game.world.height - 10), 'wall');
-        var wallTop = walls.create(0,  -10, 'wall');
-        var wallLeft = walls.create(-10,  0, 'wallSide');
-        var wallRight = walls.create(game.world.width - 20,  0, 'wallSide');
-        game.physics.p2.enable(walls);
+        // var wallBottom = walls.create(0, (game.world.height - 10), 'wall');
+        // var wallTop = walls.create(0,  -10, 'wall');
+        // var wallLeft = walls.create(-10,  0, 'wallSide');
+        // var wallRight = walls.create(game.world.width - 20,  0, 'wallSide');
+        // game.physics.p2.enable(walls);
 
-        var playerMaterial = game.physics.p2.createMaterial('playerMaterial', player.body);
+    
         var worldMaterial = game.physics.p2.createMaterial('worldMaterial');
         var boxMaterial = game.physics.p2.createMaterial('worldMaterial');
         game.physics.p2.setWorldMaterial(worldMaterial, true, true, true, true);
@@ -92,7 +125,8 @@
         gameObjects.enableBody = true;
         
         for(var i = 0; i < 5; i++){
-            metalCrate = new dynamicObject(game, 'metalCrate', game.world.centerX + (70 * i), game.world.centerY);
+            metalCrate = new dynamicObject(game, 'metalCrate_0' + (i + 1), game.world.centerX + (70 * i), game.world.centerY - 50);
+            metalCrate.scale.setTo(0.75, 0.75);
             metalCrate.body.setMaterial(boxMaterial);
         }
 
@@ -104,18 +138,33 @@
        cursors = game.input.keyboard.createCursorKeys();
 
         var woodenCrate  = new staticObject(game, 'woodenCrate', game.world.centerX - (50 * i), game.world.centerY);
-             
+        
+
     }
     
-    function update() {
+
+    function update () {
+
+
+        player.body.setZeroVelocity();
+        player.checkKeys();
+	      player.animate();
+
+        player2.body.setZeroVelocity();
+        player2.checkKeys();
+        player2.animate();
+
 		lightPacket.lightUpdate(woodenCrate, player);
 
-        hider.update();
-        //seeker.update();
+
 
 
     }
-    
+
+    function render () {
+      game.debug.spriteInfo(player, 32, 32);
+    }
+
 
 </script>
 
