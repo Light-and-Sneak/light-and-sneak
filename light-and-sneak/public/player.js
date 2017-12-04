@@ -78,6 +78,7 @@ function Hider(game, width, height, animSpeed, sprite){
     if (hider.coinCount == 10) {
       coin.sprite.kill();
       //end the game
+      game.state.start('win');
     }else {
       var newX = Math.floor(Math.random() * 737);
       coin.x = newX;
