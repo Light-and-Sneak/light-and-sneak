@@ -41,39 +41,16 @@ function Player(game, width, height, sprite){
       }
     }; //end update()
 
-
-	    player.animate = function(){
-	    if (cursors.left.isDown ||
-	        cursors.right.isDown ||
-	        cursors.up.isDown ||
-	        cursors.down.isDown)
-	    {
-	        player.animations.play('walk', 10, true);
-	    }
-	    else {
-        player.animations.stop();
-      }
-    };
-	
-	   player.checkKeys = function(){
-        if (cursors.left.isDown) {
-            player.body.moveLeft(SPEED);
-        } else if (cursors.right.isDown) {
-            player.body.moveRight(SPEED);
-        }
-
-	};
     return player;
 }
 
 
  
-// concreate player classes 
+// concrete player classes 
 function Seeker(game, width, height, animSpeed, sprite){
   seeker = new Player(game, width, height, animSpeed, sprite); 
   seeker.SPEED = 90;
   seeker.ANIM_SPEED = 5;
-  this.coinCount = 0;
   this.name = "seeker";
 
 
@@ -87,8 +64,25 @@ function Hider(game, width, height, animSpeed, sprite){
   hider = new Player(game, width, height, animSpeed, sprite); 
   hider.SPEED = 90;
   hider.ANIM_SPEED = 5;
-  this.name = "hider";
+  hider.coinCount = 0;
+  hider.name = "hider";
+  hider.body.onBeginContact.add(hider.blockHit, this);
 
+  hider.collectCoin = function(coin){
+    hider.coinCount += 1;
+    console.log(hider.coinCount);
+    coin.kill();
+  };
+
+  hider.blockHit = function(body, bodyB, shapeA, shapeB, equation) {
+    if (body) {
+      if (body.sprite.key == 'coin'){
+        hider.collectCoin();
+      }
+    }
+  };
+    
+	
   return hider;
 }
 	
