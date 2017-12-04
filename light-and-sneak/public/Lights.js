@@ -32,14 +32,11 @@ function Lights(gameObject){
 		this.bitmap.context.fillRect(0,0,gameObject.width,gameObject.height);
 		
 		for(i = 0; i < lights.length; i++){
-			console.log(i);
 			this.lightx = lights[i].locationx - 6;
 			this.lighty = lights[i].locationy- 5;
 			this.size = lights[i].size;
-			console.log(lights[i].on)
 			
 			if(lights[i].on){
-				console.log(i);
 				var pointsOfIntersect = [];
 				var attempt = player.rotation - (5*(Math.PI/12));
 				for(var a = 0; a < 2*(Math.PI); a += .1){

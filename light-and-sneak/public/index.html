@@ -72,10 +72,10 @@
         gameObjects = createObjects(game);
 		
     		
-	    //  lightPacket.setupBackground();
+	     lightPacket.setupBackground();
         cursors = game.input.keyboard.createCursorKeys();
 
-        //lightarray = createLights(game);
+        lightarray = createLights(game);
 
         woodenCrate  = game.add.sprite(game.world.centerX - (50), game.world.centerY, 'woodenCrate' );
         game.physics.p2.enable(woodenCrate);
