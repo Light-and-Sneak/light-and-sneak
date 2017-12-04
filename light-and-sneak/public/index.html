@@ -66,13 +66,14 @@
       
         walls = createWalls(game);
         gameObjects = createObjects(game);
+		
     		
 	      lightPacket.setupBackground();
         cursors = game.input.keyboard.createCursorKeys();
 
         lightarray = createLights(game);
 
-        woodenCrate  = game.add.sprite(game.world.centerX - (50 * i), game.world.centerY, 'woodenCrate' );
+        woodenCrate  = game.add.sprite(game.world.centerX - (50), game.world.centerY, 'woodenCrate' );
         game.physics.p2.enable(woodenCrate);
         woodenCrate.body.static = true;
 
@@ -81,7 +82,7 @@
 
     function update () {
 
-		lightPacket.lightUpdate(woodenCrate,lightarray, player,true);
+		lightPacket.lightUpdate(gameObjects,lightarray,walls, player,true);
       
     }
   

@@ -65,7 +65,7 @@ function createObjects(){
         gameObjects.push(new dynamicObject(game, 'spaceCrate', 360, 50));
         gameObjects.push(new staticObject(game, 'metalCrate_03', 470, 50));
         gameObjects.push(new dynamicObject(game, 'metalCrate_01', 520, 50));
-        gameObjects.push(new dynamicObject(game, 'metalCrate_04', 50, 75));
+        
         gameObjects.push(new dynamicObject(game, 'metalCrate_05', 120, 75));
         gameObjects.push(new staticObject(game, 'metalCrate_02', 600, 300));
         gameObjects.push(new dynamicObject(game, 'metalCrate_02', 650, 350));
@@ -77,11 +77,13 @@ function createObjects(){
   function createLights () {
 	  var arrayOfLights = [];
 	
-	  arrayOfLights.push(new Light(game, 50,50, false, 2000, true, 5,0,0,100,0,10000,50));
-	  //arrayOfLights[0].on = false;
-	  arrayOfLights.push(new Light(game, 90,90,false,0,true,0,1,0,10000,5,100,10));
+	  arrayOfLights.push(new Light(game,360,8,false,true,0,true,8,0,200,550,0,10000,50));
+	  arrayOfLights.push(new Light(game,250,194,true,true,3000,false,0,0,0,0,0,0,50));
+	  arrayOfLights.push(new Light(game, 500,194,true,false,3000,false,0,1,0,10000,5,100,50));
+	  arrayOfLights.push(new Light(game,396,200,false,true,0,false,0,0,0,0,0,0,50));
+	  arrayOfLights.push(new Light(game,736,414,false,true,0,true,-2,-2,712,836,390,514,50));
 	  console.log(arrayOfLights.length);
     
     return arrayOfLights;
   }
-};
+

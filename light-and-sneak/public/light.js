@@ -1,13 +1,14 @@
-function Light(game,locx, locy, flicker, flickerRate, moving, changex,changey, lowerBoundx, upperBoundx, lowerBoundy, upperBoundy, size){
+function Light(game,locx, locy, flicker,startState, flickerRate, moving, changex,changey, lowerBoundx, upperBoundx, lowerBoundy, upperBoundy, size){
 	this.upperBoundx = upperBoundx;
-	this.upperBouty = upperBoundy;
+	this.upperBoundy = upperBoundy;
 	this.lowerBoundx = lowerBoundx;
 	this.lowerBoundy = lowerBoundy;
 	this.locationx = locx;
 	this.locationy = locy;
 	this.changex = changex;
 	this.changey = changey;
-	this.on = true;
+	this.size = size;
+	this.on = startState;
 	var rate = flickerRate;
 	var timerMoving;
 	var timer;
@@ -47,7 +48,7 @@ function Light(game,locx, locy, flicker, flickerRate, moving, changex,changey, l
 		if(this.locationx >= this.upperBoundx || this.locationx <= this.lowerBoundx){
 			this.changex = this.changex * -1;
 		}
-		if(this.locationy >= this.upperBoundy || this.locationy <= this.lowerBoundy){
+		if(this.locationy <= this.lowerBoundy || this.locationy >= this.upperBoundy){
 			this.changey = this.changey * -1;
 		}
 		this.locationx += this.changex;
