@@ -4,7 +4,7 @@ function Player(game, width, height, sprite){
     player.x = 300;
     player.y = 300;
     game.physics.p2.enable(player);
-
+   
 
     player.SPEED = 140;
     player.ROTATION_SPEED = 100;
@@ -68,6 +68,7 @@ function Hider(game, width, height, animSpeed, sprite){
   hider.ANIM_SPEED = 5;
   hider.coinCount = 0;
   hider.name = "hider";
+  
 
   //hider.body.onBeginContact.add(this.blockHit, this);
 
@@ -75,16 +76,20 @@ function Hider(game, width, height, animSpeed, sprite){
     console.log(coin);
     hider.coinCount += 1;
     console.log(hider.coinCount);
-    if (hider.coinCount == 10) {
+
+     coin.sprite.playSound();
+    if (hider.coinCount === 10) {
       coin.sprite.kill();
       //end the game
       game.state.start('win');
     }else {
+     
       var newX = Math.floor(Math.random() * 737);
       coin.x = newX;
       var newY = Math.floor(Math.random() * 415);
       coin.y = newY;
     }
+
   };
 
   hider.blockHit = function(body, bodyB, shapeA, shapeB, equation) {

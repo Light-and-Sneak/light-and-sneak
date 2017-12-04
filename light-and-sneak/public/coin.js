@@ -11,5 +11,11 @@ function Coin(game, x, y, sprite){
     coin.animations.add('walk');
     coin.animations.play('walk', coin.ANIM_SPEED, true);
 
+    coinSound = game.add.audio('coinPickup');
+    
+    coin.playSound = function() {
+        coinSound.play();
+    }
+
     return coin;
 }
