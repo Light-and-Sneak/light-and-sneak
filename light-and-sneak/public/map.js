@@ -84,4 +84,4 @@ function createObjects(){
     
     return arrayOfLights;
   }
-};
+
