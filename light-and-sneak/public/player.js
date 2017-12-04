@@ -41,28 +41,6 @@ function Player(game, width, height, sprite){
       }
     }; //end update()
 
-
-	    player.animate = function(){
-	    if (cursors.left.isDown ||
-	        cursors.right.isDown ||
-	        cursors.up.isDown ||
-	        cursors.down.isDown)
-	    {
-	        player.animations.play('walk', 10, true);
-	    }
-	    else {
-        player.animations.stop();
-      }
-    };
-	
-	   player.checkKeys = function(){
-        if (cursors.left.isDown) {
-            player.body.moveLeft(SPEED);
-        } else if (cursors.right.isDown) {
-            player.body.moveRight(SPEED);
-        }
-
-	};
     return player;
 }
 
@@ -92,10 +70,11 @@ function Hider(game, width, height, animSpeed, sprite){
 
   hider.collectCoin = function(coin){
     hider.coinCount += 1;
+    console.log(hider.coinCount);
     coin.kill();
   };
 
-  hider.blockHit (body, bodyB, shapeA, shapeB, equation) {
+  hider.blockHit = function(body, bodyB, shapeA, shapeB, equation) {
     if (body) {
       if (body.sprite.key == 'coin'){
         hider.collectCoin();
