@@ -8,12 +8,14 @@
     <script src="./dynamicObject.js"></script>
     <script src="./staticObject.js"></script>
     <script src="./map.js"></script>
+	<script src="./light.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
 
 <script type = "text/javascript" src = "Lights.js"></script>   
+
 <script type="text/javascript">
 
     // create a global scall ratio that'll apply to all assets in the game
@@ -48,7 +50,7 @@
     var woodenCrate;
     var player;
 
-
+	var lightarray;
     var hider;
     var seeker;
     var cursors;
@@ -77,7 +79,7 @@
         //hider = new Hider(game, 200, 50, 'hiderSheet');
         seeker = new Seeker(game, 100, 50, 'seekerSheet');
 
-        createMap(game);
+        lightarray = createMap(game);
         
 
         //player = new Player(game, 'hiderSheet', true);
@@ -150,7 +152,7 @@
 
         
 
-		lightPacket.lightUpdate(woodenCrate, player);
+		lightPacket.lightUpdate(woodenCrate,lightarray, player,true);
 
 
 
