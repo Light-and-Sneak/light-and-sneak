@@ -64,7 +64,9 @@
         
         background = game.add.sprite(0,0, 'background');
         
-        seeker = new Seeker(game, 100, 50, 'seekerSheet');
+        player = new Hider(game, 100, 100, 'seekerSheet');
+
+        
       
         walls = createWalls(game);
         gameObjects = createObjects(game);
@@ -79,6 +81,9 @@
         woodenCrate.body.static = true;
 
         var coin = new Coin(game, 100, 200, 'coin');
+        
+        player.body.onBeginContact.add(player.blockHit, this);
+        
 
     }
     

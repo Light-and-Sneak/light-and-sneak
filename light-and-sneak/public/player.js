@@ -66,23 +66,26 @@ function Hider(game, width, height, animSpeed, sprite){
   hider.ANIM_SPEED = 5;
   hider.coinCount = 0;
   hider.name = "hider";
-  hider.body.onBeginContact.add(hider.blockHit, this);
+
+  //hider.body.onBeginContact.add(this.blockHit, this);
 
   hider.collectCoin = function(coin){
+    console.log(coin);
     hider.coinCount += 1;
     console.log(hider.coinCount);
-    coin.kill();
+    coin.sprite.kill();
   };
 
   hider.blockHit = function(body, bodyB, shapeA, shapeB, equation) {
+    //console.log(body);
     if (body) {
       if (body.sprite.key == 'coin'){
-        hider.collectCoin();
+        hider.collectCoin(body);
       }
     }
   };
     
-	
+	 //hider.body.onBeginContact.add(this.blockHit, this);
   return hider;
 }
 	

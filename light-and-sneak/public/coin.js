@@ -9,4 +9,5 @@ function Coin(game, x, y, sprite){
     coin.animations.add('walk');
     coin.animations.play('walk', coin.ANIM_SPEED, true);
 
+    return coin;
 }
