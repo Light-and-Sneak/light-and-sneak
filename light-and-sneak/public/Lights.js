@@ -180,12 +180,12 @@ function Lights(gameObject){
 				var playerIntersect = Phaser.Line.intersects(ray,playerBox[i]);
 				if(playerIntersect){
 					this.lose = true;
-					distance = gameObject.math.distance(ray.start.x,ray.start.y,playerIntersect.x,playerIntersect.y);
-					if(distance < 100){
-						distanceOut = distance;
-						closestIntersection = intersect;
-						this.lose = true;
-					}
+					//distance = gameObject.math.distance(ray.start.x,ray.start.y,playerIntersect.x,playerIntersect.y);
+					// if(distance < 100){
+					// 	distanceOut = distance;
+					// 	closestIntersection = intersect;
+					// 	this.lose = true;
+					// }
 				}
 		
 		}

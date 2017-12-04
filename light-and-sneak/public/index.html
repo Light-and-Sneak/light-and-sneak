@@ -74,6 +74,7 @@
         game.physics.p2.world.setGlobalStiffness(1e5);
         
         game.state.add('win', winState);
+        game.state.add('lose', loseState);
         
         background = game.add.sprite(0,0, 'background');
         
@@ -114,7 +115,8 @@
     function update () {
 
 		testBool = lightPacket.lightUpdate(gameObjects,lightarray,walls, player,guards);
-		console.log(testBool);
+        console.log(testBool);
+       // if(testBool){game.state.start('lose');}
 		moveGuards();
     }
 
@@ -137,19 +139,29 @@
       }
 
     }
+
+    var loseState = function(){};
+    loseState.prototype = {
+        create: function(){
+        alarmSound.play();
+        var text = game.add.text(game.world.centerX, game.world.centerY, "Game Over, You lose!", { font: "20px Arial", fill: "#0a00ff", align: "left" });
+        var key = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        key.onDown.addOnce(function(){
+            location.reload();
+        })
+        }
+    }
     
     var winState = function(){};
     winState.prototype = {
     create: function(){
-      var text = game.add.text(game.world.centerX, game.world.centerY, "Game Over!", { font: "20px Arial", fill: "#0a00ff", align: "left" });
-      var key = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-      key.onDown.addOnce(function(){
-        location.reload();
-      })
-      
-      
+            var text = game.add.text(game.world.centerX, game.world.centerY, "Game Over, you win. sure!", { font: "20px Arial", fill: "#0a00ff", align: "left" });
+            var key = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+            key.onDown.addOnce(function(){
+                location.reload();
+            })
+        }
     }
-  }
   
 </script>
 
