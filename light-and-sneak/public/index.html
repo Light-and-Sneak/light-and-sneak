@@ -7,7 +7,8 @@
     <script src="./dynamicObject.js"></script>
     <script src="./staticObject.js"></script>
     <script src="./map.js"></script>
-	  <script src="./light.js"></script>
+      <script src="./light.js"></script>
+      <script src="./coin.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
@@ -38,7 +39,8 @@
         game.load.image('metalCrate_06', 'assets/crateMetal_06.png' );
         game.load.image('woodenCrate', 'assets/crateWood.png');
         game.load.image('spaceCrate', 'assets/spaceCrate.png');
-        game.load.image('wall', 'assets/wallTile.png')
+        game.load.image('wall', 'assets/wallTile.png');
+        game.load.spritesheet('coin', 'assets/coin-spriteSheet.png',44,40);
         game.load.spritesheet('hiderSheet', 'assets/hider-spriteSheet.png',50,50);
         game.load.spritesheet('seekerSheet', 'assets/seeker-spriteSheet.png',50,50);
         
@@ -62,28 +64,34 @@
         
         background = game.add.sprite(0,0, 'background');
         
-        seeker = new Seeker(game, 100, 50, 'seekerSheet');
+        player = new Hider(game, 100, 100, 'seekerSheet');
+
+        
       
         walls = createWalls(game);
         gameObjects = createObjects(game);
 		
     		
-	      lightPacket.setupBackground();
+	    //  lightPacket.setupBackground();
         cursors = game.input.keyboard.createCursorKeys();
 
-        lightarray = createLights(game);
+        //lightarray = createLights(game);
 
         woodenCrate  = game.add.sprite(game.world.centerX - (50), game.world.centerY, 'woodenCrate' );
         game.physics.p2.enable(woodenCrate);
         woodenCrate.body.static = true;
+
+        var coin = new Coin(game, 100, 200, 'coin');
+        
+        player.body.onBeginContact.add(player.blockHit, this);
+        
 
     }
     
 
     function update () {
 
-		lightPacket.lightUpdate(gameObjects,lightarray,walls, player,true);
-      
+		lightPacket.lightUpdate(gameObjects,lightarray,walls, player,true);    
     }
   
 </script>
