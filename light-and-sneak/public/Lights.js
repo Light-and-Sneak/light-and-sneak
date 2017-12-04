@@ -4,29 +4,32 @@ function Lights(gameObject){
 	//var timer;
 	var size;
 	var walls;
+	var player;
+	var lose;
     this.setupBackground = function() {
         this.bitmap = gameObject.add.bitmapData(gameObject.width, gameObject.height);
         this.bitmap.context.fillStyle = 'rgb(255,255,255)';
         this.bitmap.context.strokeStyle = 'rgb(255,255,255)';
         var lightBitmap = gameObject.add.image(0, 0, this.bitmap);
-		this.size = 100;
+		this.scaleSize = 1;
+		this.lose = false;
 		
         lightBitmap.blendMode = Phaser.blendModes.MULTIPLY;
 		//this.light = gameObject.add.sprite(gameObject.width/2,gameObject.height/2)
 		//this.light.anchor.setTo(0.5,0.5);
-		//timer = gameObject.time.create(false);
-		//timer.loop(2000,this.updatesize,this);
-		//timer.start();
+		timer = gameObject.time.create(false);
+		timer.loop(2000,this.updatesize,this);
+		timer.start();
 		//gameObject.input.activePointer.x = gameObject.width/2;
 		//gameObject.input.activePointer.y = gameObject.height/2;
     }
 	this.updatesize = function(){
-		this.size++;
+		this.scaleSize += .1;
 	}
     this.lightUpdate = function(crate,lights,walls,player,bots){
-		this.bots = false;
-		this.crate = crate;
 		
+		this.crate = crate;
+		this.player = player;
 		this.walls = walls;
 		this.bitmap.context.fillStyle = 'rgb(75,75,75)';
 		this.bitmap.context.fillRect(0,0,gameObject.width,gameObject.height);
@@ -35,12 +38,12 @@ function Lights(gameObject){
 			this.lightx = lights[i].locationx - 6;
 			this.lighty = lights[i].locationy- 5;
 			this.size = lights[i].size;
-			
+			var gradient;
 			if(lights[i].on){
 				var pointsOfIntersect = [];
 				var attempt = player.rotation - (5*(Math.PI/12));
 				for(var a = 0; a < 2*(Math.PI); a += .1){
-					var ray = new Phaser.Line(this.lightx, this.lighty, this.lightx + Math.cos(a) * this.size, this.lighty + Math.sin(a) * this.size);
+					var ray = new Phaser.Line(this.lightx, this.lighty, (this.lightx + Math.cos(a) * this.size * this.scaleSize), (this.lighty + Math.sin(a) * 200* this.scaleSize));
 					
 					var intersect = this.getIntersection(ray,this.crate,this.walls);
 					
@@ -54,7 +57,7 @@ function Lights(gameObject){
 				}
 			
 				
-				var gradient = this.bitmap.context.createRadialGradient(
+				gradient = this.bitmap.context.createRadialGradient(
 					this.lightx,this.lighty, this.size * 0.75, this.lightx,this.lighty,this.size);
 				gradient.addColorStop(0,'rgba(255,255,255,1.0');
 				gradient.addColorStop(1,'rgba(255,255,255,0.0');
@@ -74,21 +77,22 @@ function Lights(gameObject){
 				
 			}
 		}
-		//this.bitmap.context.fill();
-			/*if (this.bots == true){
-				for(i = 0; i < lights.length; i++){
-					this.lightx = lights[i].locationx - 6;
-					this.lighty = lights[i].locationy- 5;
-					this.crate = crate;
-					console.log(lights[i].on)
-					if(lights[i].on == true){
+		
+			
+				for(b = 0; b < bots.length; b++){
+					this.lightx = bots[b].body.x - 6;
+					this.lighty = bots[b].body.y- 5;
+					
+					
+					
+						
 					
 						var pointsOfIntersect = [];
-						var attempt = player.rotation - (5*(Math.PI/12));
-						for(var a = player.rotation - (5*(Math.PI/12)); a >( attempt - (Math.PI/6)); a -= Math.PI/360){
-							var ray = new Phaser.Line(this.lightx, this.lighty, this.lightx + Math.cos(a) * this.size, this.lighty + Math.sin(a) * this.size);
+						var attempt = bots[b].angle * (Math.PI/180) - (5*(Math.PI/12));
+						for(var a = bots[b].angle * (Math.PI/180) - (5*(Math.PI/12)); a >( attempt - (Math.PI/6)); a -= Math.PI/360){
+							var ray = new Phaser.Line(this.lightx, this.lighty, this.lightx + Math.cos(a) * 150, this.lighty + Math.sin(a) * 150);
 							
-							var intersect = this.getIntersection(ray);
+							var intersect = this.getIntersection(ray,this.crate,this.walls);
 							
 							if(intersect){
 								pointsOfIntersect.push(intersect);
@@ -100,33 +104,27 @@ function Lights(gameObject){
 						}
 				
 						
-						var gradient = this.bitmap.context.createRadialGradient(
-							this.lightx,this.lighty, this.size * 0.75, this.lightx,this.lighty,this.size);
-						gradient.addColorStop(0,'rgba(255,255,255,1.0');
-						gradient.addColorStop(1,'rgba(255,255,255,0.0');
 						this.bitmap.context.beginPath();
-						this.bitmap.context.fillStyle = gradient;
-						if(player = "seeker"){
-							this.bitmap.context.moveTo(this.lightx,this.lighty);
-						}
-						else{
-							this.bitmap.context.moveTo(pointsOfIntersect[0].x, pointsOfIntersect[0].y);
-						}
+						
+						this.bitmap.context.fillStyle = 'rgb(255, 255, 255)';
+						
+						this.bitmap.context.moveTo(this.lightx,this.lighty);
+						
 						for(var i = 0; i < pointsOfIntersect.length; i++){
 							this.bitmap.context.lineTo(pointsOfIntersect[i].x,pointsOfIntersect[i].y);
 						}
-						if(player == "seeker"){
-							this.bitmap.context.lineTo(this.lightx,this.lighty);
-						}
+						this.bitmap.context.lineTo(this.lightx,this.lighty);
+						
 						this.bitmap.context.closePath();
 						this.bitmap.context.fill();
 						
 						//this.bitmap.dirty = true;
-					}
 				}
-			}*/
-		
+		return this.lose;
 	}
+			
+		
+	
 	
 	this.getIntersection = function(ray,crate,walls){
 		this.crate = crate;
@@ -149,7 +147,7 @@ function Lights(gameObject){
 		}
 
 		for(wallNum = 0; wallNum < walls.length; wallNum++){
-			correctionx = this.walls[wallNum].height/2;
+			correctionx = this.walls[wallNum].height/2 - 18;
 			correctiony = this.walls[wallNum].width/2;
 			
 			lines.push(new Phaser.Line(this.walls[wallNum].x - correctionx ,this.walls[wallNum].y - correctiony,this.walls[wallNum].x + this.walls[wallNum].width - correctionx, this.walls[wallNum].y - correctiony))
@@ -169,6 +167,29 @@ function Lights(gameObject){
 				}
 		
 		}
+		correctionx = this.player.width/2;
+		correctiony = this.player.height/2;
+		playerBox = [
+					
+			(new Phaser.Line(this.player.x - correctionx ,this.player.y - correctiony,this.player.x + this.player.width - correctionx, this.player.y - correctiony)),
+			(new Phaser.Line(this.player.x - correctionx,this.player.y - correctiony,this.player.x - correctionx, this.player.y + this.player.height - correctiony)),
+			(new Phaser.Line(this.player.x + this.player.width - correctionx, this.player.y + this.player.height - correctiony, this.player.x + this.player.width - correctionx, this.player.y - correctiony)),
+			(new Phaser.Line(this.player.x + this.player.width - correctionx, this.player.y + this.player.height - correctiony, this.player.x - correctionx, this.player.y + this.player.height - correctiony))
+		]
+		for(var i = 0; i< playerBox.length; i++){
+				var playerIntersect = Phaser.Line.intersects(ray,playerBox[i]);
+				if(playerIntersect){
+					this.lose = true;
+					distance = gameObject.math.distance(ray.start.x,ray.start.y,playerIntersect.x,playerIntersect.y);
+					if(distance < 100){
+						distanceOut = distance;
+						closestIntersection = intersect;
+						this.lose = true;
+					}
+				}
+		
+		}
 		return closestIntersection;
+		
 	}
 }

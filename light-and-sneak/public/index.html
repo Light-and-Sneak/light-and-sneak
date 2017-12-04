@@ -113,8 +113,8 @@
 
     function update () {
 
-		lightPacket.lightUpdate(gameObjects,lightarray,walls, player,true);
-
+		testBool = lightPacket.lightUpdate(gameObjects,lightarray,walls, player,guards);
+		console.log(testBool);
 		moveGuards();
     }
 

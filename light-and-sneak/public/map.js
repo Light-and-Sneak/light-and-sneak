@@ -75,7 +75,7 @@ function createObjects(){
 	  arrayOfLights.push(new Light(game,250,194,true,true,3000,false,0,0,0,0,0,0,50));
 	  arrayOfLights.push(new Light(game, 500,194,true,false,3000,false,0,1,0,10000,5,100,50));
 	  arrayOfLights.push(new Light(game,396,200,false,true,0,false,0,0,0,0,0,0,50));
-	  arrayOfLights.push(new Light(game,736,414,false,true,0,true,-2,-2,712,836,390,514,50));
+	  arrayOfLights.push(new Light(game,736,414,false,true,0,true,-2,-2,712,766,390,444,50));
 	  console.log(arrayOfLights.length);
     
     return arrayOfLights;
