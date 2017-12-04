@@ -3,17 +3,18 @@
 <head>
     <title>Light and Sneak</title>
     <script src="//cdn.jsdelivr.net/npm/phaser-ce@2.9.2"></script>
-    <script src="/socket.io/socket.io.js"></script>
     <script src="./player.js"></script>
     <script src="./dynamicObject.js"></script>
     <script src="./staticObject.js"></script>
     <script src="./map.js"></script>
+	  <script src="./light.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
 
 <script type = "text/javascript" src = "Lights.js"></script>   
+
 <script type="text/javascript">
 
     // create a global scall ratio that'll apply to all assets in the game
@@ -24,8 +25,6 @@
 
     var lightPacket = new Lights(game);
 
-
-    var socket = io();
 
     // this initilizes the game objects
     function preload() {
@@ -47,14 +46,11 @@
 
     var walls;
     var gameObjects;
-    //var woodenCrate;
-    var cursors;
-
+    var woodenCrate;
     var player;
-    var player2;
 
-
-    //var cursors;
+	  var lightarray;
+    var cursors;
 
     function create() {
         // set the physics to be P2
@@ -66,28 +62,29 @@
         
         background = game.add.sprite(0,0, 'background');
         
-
-        //hider = new Hider(game, 200, 50, 'hiderSheet');
         seeker = new Seeker(game, 100, 50, 'seekerSheet');
-
+      
         walls = createWalls(game);
         gameObjects = createObjects(game);
     		
-	    lightPacket.setupBackground();
+	      lightPacket.setupBackground();
         cursors = game.input.keyboard.createCursorKeys();
+
+        lightarray = createLights(game);
+
+        woodenCrate  = game.add.sprite(game.world.centerX - (50 * i), game.world.centerY, 'woodenCrate' );
+        game.physics.p2.enable(woodenCrate);
+        woodenCrate.body.static = true;
 
     }
     
 
     function update () {
-		lightPacket.lightUpdate(gameObjects, player);
+
+		lightPacket.lightUpdate(woodenCrate,lightarray, player,true);
+      
     }
-
-    function render () {
-      game.debug.spriteInfo(player, 32, 32);
-    }
-
-
+  
 </script>
 
 </body>
