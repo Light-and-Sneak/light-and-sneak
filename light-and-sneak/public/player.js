@@ -1,6 +1,8 @@
 function Player(game, width, height, sprite){
     player = game.add.sprite(width, height, sprite);
     player.scale.setTo(0.6, 0.6);
+    player.x = 300;
+    player.y = 300;
     game.physics.p2.enable(player);
 
 

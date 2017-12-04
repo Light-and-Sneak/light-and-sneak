@@ -7,8 +7,9 @@
     <script src="./dynamicObject.js"></script>
     <script src="./staticObject.js"></script>
     <script src="./map.js"></script>
-      <script src="./light.js"></script>
-      <script src="./coin.js"></script>
+    <script src="./light.js"></script>
+    <script src="./coin.js"></script>
+    <script src="./guard.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
@@ -50,8 +51,9 @@
     var gameObjects;
     var woodenCrate;
     var player;
-
-	  var lightarray;
+    var guard;
+    var guards = [];
+    var lightarray;
     var cursors;
 
     function create() {
@@ -66,7 +68,16 @@
         
         player = new Hider(game, 100, 100, 'seekerSheet');
 
-        
+        for(var i = 0; i < 2; i++){
+          guards.push(new guard(game, 100, 100, 'seekerSheet'));
+        }
+
+        guards[0].body.x = 615;
+        guards[0].body.y = 65;
+        guards[0].angle = 180;
+        guards[1].body.x = 90;
+        guards[1].body.y = 300;
+        guards[1].angle = 0;
       
         walls = createWalls(game);
         gameObjects = createObjects(game);
@@ -91,7 +102,29 @@
 
     function update () {
 
-		lightPacket.lightUpdate(gameObjects,lightarray,walls, player,true);    
+		lightPacket.lightUpdate(gameObjects,lightarray,walls, player,true);
+
+		moveGuards();
+    }
+
+    function moveGuards() {
+      if(guards[0].body.y <= 65){
+        guards[0].body.moveBackward(50);
+        game.add.tween(guards[0]).to( {angle: -180}, 500, Phaser.Easing.Linear.None, true);
+      }
+      if(guards[0].body.y >= 245){
+        guards[0].body.moveForward(50);
+        game.add.tween(guards[0]).to( { angle: 0}, 500, Phaser.Easing.Linear.None, true);
+      }
+      if(guards[1].body.y <= 125){
+        guards[1].body.moveBackward(50);
+        game.add.tween(guards[1]).to( { angle: 180}, 500, Phaser.Easing.Linear.None, true);
+      }
+      if(guards[1].body.y >= 300){
+        guards[1].body.moveForward(50);
+        game.add.tween(guards[1]).to( {angle: 0}, 500, Phaser.Easing.Linear.None, true);
+      }
+
     }
   
 </script>
