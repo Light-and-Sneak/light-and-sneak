@@ -1,0 +1,7 @@
+pipes: Naarshakta
+space blocks:Kenny, http://kenney.nl/
+additional space blocks: https://www.gameart2d.com/free-sci-fi-platformer-tileset.html
+coins: JM.Atencia
+background music: Matthew Pablo, https://opengameart.org/content/dream-raid-cinematic-action-soundtrack
+coin sound: Triki Minut, https://opengameart.org/content/sci-fi-laser-fire-sfx
+alarm: Macro, https://opengameart.org/content/alarm-0
