@@ -76,8 +76,20 @@ function Hider(game, width, height, animSpeed, sprite){
     console.log(coin);
     hider.coinCount += 1;
     console.log(hider.coinCount);
-    coin.sprite.playSound();
-    coin.sprite.kill();
+
+     coin.sprite.playSound();
+    if (hider.coinCount === 10) {
+      coin.sprite.kill();
+      //end the game
+      game.state.start('win');
+    }else {
+     
+      var newX = Math.floor(Math.random() * 737);
+      coin.x = newX;
+      var newY = Math.floor(Math.random() * 415);
+      coin.y = newY;
+    }
+
   };
 
   hider.blockHit = function(body, bodyB, shapeA, shapeB, equation) {

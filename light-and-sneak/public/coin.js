@@ -4,7 +4,9 @@ function Coin(game, x, y, sprite){
     coin.width = 25;
     coin.height = 25;
     game.physics.p2.enable(coin);
-    coin.body.static = true;
+    coin.body.static = false;
+    coin.body.damping = 0.99;
+    coin.body.angularVelocity = 10;
     
     coin.animations.add('walk');
     coin.animations.play('walk', coin.ANIM_SPEED, true);

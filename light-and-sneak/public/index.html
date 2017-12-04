@@ -73,6 +73,8 @@
         //game.physics.p2.restitution = 0.9;
         game.physics.p2.world.setGlobalStiffness(1e5);
         
+        game.state.add('win', winState);
+        
         background = game.add.sprite(0,0, 'background');
         
         player = new Hider(game, 100, 100, 'seekerSheet');
@@ -135,6 +137,19 @@
       }
 
     }
+    
+    var winState = function(){};
+    winState.prototype = {
+    create: function(){
+      var text = game.add.text(game.world.centerX, game.world.centerY, "Game Over!", { font: "20px Arial", fill: "#0a00ff", align: "left" });
+      var key = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+      key.onDown.addOnce(function(){
+        location.reload();
+      })
+      
+      
+    }
+  }
   
 </script>
 
