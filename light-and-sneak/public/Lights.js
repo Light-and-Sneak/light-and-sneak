@@ -43,7 +43,7 @@ function Lights(gameObject){
 				var pointsOfIntersect = [];
 				var attempt = player.rotation - (5*(Math.PI/12));
 				for(var a = 0; a < 2*(Math.PI); a += .1){
-					var ray = new Phaser.Line(this.lightx, this.lighty, (this.lightx + Math.cos(a) * this.size * this.scaleSize), (this.lighty + Math.sin(a) * 200* this.scaleSize));
+					var ray = new Phaser.Line(this.lightx, this.lighty, (this.lightx + Math.cos(a) * this.size), (this.lighty + Math.sin(a) * this.size));
 					
 					var intersect = this.getIntersection(ray,this.crate,this.walls);
 					

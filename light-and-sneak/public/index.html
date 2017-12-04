@@ -116,7 +116,7 @@
 
 		testBool = lightPacket.lightUpdate(gameObjects,lightarray,walls, player,guards);
         console.log(testBool);
-       // if(testBool){game.state.start('lose');}
+        if(testBool){game.state.start('lose');}
 		moveGuards();
     }
 
