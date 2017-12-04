@@ -70,6 +70,7 @@
       
         walls = createWalls(game);
         gameObjects = createObjects(game);
+		
     		
 	    //  lightPacket.setupBackground();
         cursors = game.input.keyboard.createCursorKeys();
@@ -90,8 +91,7 @@
 
     function update () {
 
-		//lightPacket.lightUpdate(woodenCrate,lightarray, player,true);
-      
+		lightPacket.lightUpdate(gameObjects,lightarray,walls, player,true);    
     }
   
 </script>

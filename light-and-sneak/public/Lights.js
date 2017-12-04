@@ -3,6 +3,7 @@ function Lights(gameObject){
 	var crate;
 	//var timer;
 	var size;
+	var walls;
     this.setupBackground = function() {
         this.bitmap = gameObject.add.bitmapData(gameObject.width, gameObject.height);
         this.bitmap.context.fillStyle = 'rgb(255,255,255)';
@@ -22,26 +23,29 @@ function Lights(gameObject){
 	this.updatesize = function(){
 		this.size++;
 	}
-    this.lightUpdate = function(crate,lights,player,bots){
+    this.lightUpdate = function(crate,lights,walls,player,bots){
 		this.bots = false;
-		this.bitmap.context.fillStyle = 'rgb(100,100,100)';
+		this.crate = crate;
+		
+		this.walls = walls;
+		this.bitmap.context.fillStyle = 'rgb(75,75,75)';
 		this.bitmap.context.fillRect(0,0,gameObject.width,gameObject.height);
 		
 		for(i = 0; i < lights.length; i++){
 			console.log(i);
 			this.lightx = lights[i].locationx - 6;
 			this.lighty = lights[i].locationy- 5;
-			this.crate = crate;
+			this.size = lights[i].size;
 			console.log(lights[i].on)
 			
 			if(lights[i].on){
 				console.log(i);
 				var pointsOfIntersect = [];
 				var attempt = player.rotation - (5*(Math.PI/12));
-				for(var a = 0; a < 2*(Math.PI); a += Math.PI/360){
+				for(var a = 0; a < 2*(Math.PI); a += .1){
 					var ray = new Phaser.Line(this.lightx, this.lighty, this.lightx + Math.cos(a) * this.size, this.lighty + Math.sin(a) * this.size);
 					
-					var intersect = this.getIntersection(ray);
+					var intersect = this.getIntersection(ray,this.crate,this.walls);
 					
 					if(intersect){
 						pointsOfIntersect.push(intersect);
@@ -127,19 +131,36 @@ function Lights(gameObject){
 		
 	}
 	
-	this.getIntersection = function(ray){
+	this.getIntersection = function(ray,crate,walls){
+		this.crate = crate;
+		this.walls = walls;
+		
 		var distanceOut = Number.POSITIVE_INFINITY;
 		var closestIntersection = null;
-		var correctionx = this.crate.width/2;
-		var correctiony = this.crate.height/2;
-		var lines = [
-				new Phaser.Line(this.crate.x - correctionx ,this.crate.y - correctiony,this.crate.x + this.crate.width - correctionx, this.crate.y - correctiony),
-				new Phaser.Line(this.crate.x - correctionx,this.crate.y - correctiony,this.crate.x - correctionx, this.crate.y + this.crate.height - correctiony),
-				new Phaser.Line(this.crate.x + this.crate.width - correctionx, this.crate.y + this.crate.height - correctiony, this.crate.x + this.crate.width - correctionx, this.crate.y - correctiony),
-				new Phaser.Line(this.crate.x + this.crate.width - correctionx, this.crate.y + this.crate.height - correctiony, this.crate.x - correctionx, this.crate.y + this.crate.height - correctiony)
+		var lines = [];
+		var correctionx;
+		var correctiony;
+		for(boxNum = 0; boxNum < this.crate.length; boxNum++){
 			
-			];
+			correctionx = this.crate[boxNum].width/2;
+			correctiony = this.crate[boxNum].height/2;
 		
+			lines.push(new Phaser.Line(this.crate[boxNum].x - correctionx ,this.crate[boxNum].y - correctiony,this.crate[boxNum].x + this.crate[boxNum].width - correctionx, this.crate[boxNum].y - correctiony))
+			lines.push(new Phaser.Line(this.crate[boxNum].x - correctionx,this.crate[boxNum].y - correctiony,this.crate[boxNum].x - correctionx, this.crate[boxNum].y + this.crate[boxNum].height - correctiony))
+			lines.push(new Phaser.Line(this.crate[boxNum].x + this.crate[boxNum].width - correctionx, this.crate[boxNum].y + this.crate[boxNum].height - correctiony, this.crate[boxNum].x + this.crate[boxNum].width - correctionx, this.crate[boxNum].y - correctiony))
+			lines.push(new Phaser.Line(this.crate[boxNum].x + this.crate[boxNum].width - correctionx, this.crate[boxNum].y + this.crate[boxNum].height - correctiony, this.crate[boxNum].x - correctionx, this.crate[boxNum].y + this.crate[boxNum].height - correctiony))
+		}
+
+		for(wallNum = 0; wallNum < walls.length; wallNum++){
+			correctionx = this.walls[wallNum].height/2;
+			correctiony = this.walls[wallNum].width/2;
+			
+			lines.push(new Phaser.Line(this.walls[wallNum].x - correctionx ,this.walls[wallNum].y - correctiony,this.walls[wallNum].x + this.walls[wallNum].width - correctionx, this.walls[wallNum].y - correctiony))
+			lines.push(new Phaser.Line(this.walls[wallNum].x - correctionx,this.walls[wallNum].y - correctiony,this.walls[wallNum].x - correctionx, this.walls[wallNum].y + this.walls[wallNum].height - correctiony))
+			lines.push(new Phaser.Line(this.walls[wallNum].x + this.walls[wallNum].width - correctionx, this.walls[wallNum].y + this.walls[wallNum].height - correctiony, this.walls[wallNum].x + this.walls[wallNum].width - correctionx, this.walls[wallNum].y - correctiony))
+			lines.push(new Phaser.Line(this.walls[wallNum].x + this.walls[wallNum].width - correctionx, this.walls[wallNum].y + this.walls[wallNum].height - correctiony, this.walls[wallNum].x - correctionx, this.walls[wallNum].y + this.walls[wallNum].height - correctiony))
+			
+		}
 		for(var i = 0; i< lines.length; i++){
 				var intersect = Phaser.Line.intersects(ray,lines[i]);
 				if(intersect){

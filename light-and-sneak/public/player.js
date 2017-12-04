@@ -49,7 +49,7 @@ function Player(game, width, height, sprite){
 // concrete player classes 
 function Seeker(game, width, height, animSpeed, sprite){
   seeker = new Player(game, width, height, animSpeed, sprite); 
-  seeker.SPEED = 90;
+  seeker.SPEED = 140;
   seeker.ANIM_SPEED = 5;
   this.name = "seeker";
 
