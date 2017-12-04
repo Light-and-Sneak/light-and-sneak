@@ -68,12 +68,11 @@ function Player(game, width, height, sprite){
 
 
  
-// concreate player classes 
+// concrete player classes 
 function Seeker(game, width, height, animSpeed, sprite){
   seeker = new Player(game, width, height, animSpeed, sprite); 
   seeker.SPEED = 90;
   seeker.ANIM_SPEED = 5;
-  this.coinCount = 0;
   this.name = "seeker";
 
 
@@ -87,8 +86,24 @@ function Hider(game, width, height, animSpeed, sprite){
   hider = new Player(game, width, height, animSpeed, sprite); 
   hider.SPEED = 90;
   hider.ANIM_SPEED = 5;
-  this.name = "hider";
+  hider.coinCount = 0;
+  hider.name = "hider";
+  hider.body.onBeginContact.add(hider.blockHit, this);
 
+  hider.collectCoin = function(coin){
+    hider.coinCount += 1;
+    coin.kill();
+  };
+
+  hider.blockHit (body, bodyB, shapeA, shapeB, equation) {
+    if (body) {
+      if (body.sprite.key == 'coin'){
+        hider.collectCoin();
+      }
+    }
+  };
+    
+	
   return hider;
 }
 	
