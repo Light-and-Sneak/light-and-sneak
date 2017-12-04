@@ -75,7 +75,15 @@ function Hider(game, width, height, animSpeed, sprite){
     console.log(coin);
     hider.coinCount += 1;
     console.log(hider.coinCount);
-    coin.sprite.kill();
+    if (hider.coinCount == 10) {
+      coin.sprite.kill();
+      //end the game
+    }else {
+      var newX = Math.floor(Math.random() * 737);
+      coin.x = newX;
+      var newY = Math.floor(Math.random() * 415);
+      coin.y = newY;
+    }
   };
 
   hider.blockHit = function(body, bodyB, shapeA, shapeB, equation) {
