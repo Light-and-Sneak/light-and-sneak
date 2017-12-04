@@ -6,11 +6,9 @@ function createWalls(game){
     for (var i = 0; i < 3; i++){
         wallTop = new staticObject(game, 'wall', 175, (0 + (50 * i)));
         wallTop.scale.setTo(1,1);
-        wallTop.body.angle = 90;
 
         wallBottom = new staticObject(game, 'wall', 175, (game.world.height - (50 * i)));
         wallBottom.scale.setTo(1,1);
-        wallBottom.body.angle = 90;
         walls.push(wallTop);
         walls.push(wallBottom);
     }
@@ -18,11 +16,9 @@ function createWalls(game){
      // center walls
      for (var i = 0; i < 3; i++){
         wallLeft = new staticObject(game, 'wall', (game.world.width / 3) + 25 , ((game.world.height / 3) + (50 * i)));
-        wallLeft.body.angle = 90;
         wallLeft.scale.setTo(1,1);
 
         wallRight = new staticObject(game, 'wall', ((game.world.width / 3) * 2) - 10 , ((game.world.height / 3) + (50 * i)));
-        wallRight.body.angle = 90;
         wallRight.scale.setTo(1,1);
         walls.push(wallLeft);
         walls.push(wallRight);
@@ -32,11 +28,9 @@ function createWalls(game){
     for (var i = 0; i < 3; i++){
         wallTop = new staticObject(game, 'wall', game.world.width - 175, (0 + (50 * i)));
         wallTop.scale.setTo(1,1);
-        wallTop.body.angle = 90;
 
         wallBottom = new staticObject(game, 'wall', game.world.width - 175, (game.world.height - (50 * i)));
         wallBottom.scale.setTo(1,1);
-        wallBottom.body.angle = 90;
         walls.push(wallTop);
         walls.push(wallBottom);
     }
