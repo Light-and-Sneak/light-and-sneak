@@ -3,12 +3,11 @@
 <head>
     <title>Light and Sneak</title>
     <script src="//cdn.jsdelivr.net/npm/phaser-ce@2.9.2"></script>
-    <script src="/socket.io/socket.io.js"></script>
     <script src="./player.js"></script>
     <script src="./dynamicObject.js"></script>
     <script src="./staticObject.js"></script>
     <script src="./map.js"></script>
-	<script src="./light.js"></script>
+	  <script src="./light.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
@@ -26,8 +25,6 @@
 
     var lightPacket = new Lights(game);
 
-
-    var socket = io();
 
     // this initilizes the game objects
     function preload() {
@@ -47,22 +44,13 @@
         
     }
 
+    var walls;
+    var gameObjects;
     var woodenCrate;
     var player;
 
-	var lightarray;
-    var hider;
-    var seeker;
+	  var lightarray;
     var cursors;
-
-	    //game.load.spritesheet('hiderSheet', 'assets/hider-spriteSheet.png',50,50);
-   
-    
-    var player;
-    var player2;
-
-    //var cursors;
-
 
     function create() {
         // set the physics to be P2
@@ -74,96 +62,29 @@
         
         background = game.add.sprite(0,0, 'background');
         
-
-
-        //hider = new Hider(game, 200, 50, 'hiderSheet');
         seeker = new Seeker(game, 100, 50, 'seekerSheet');
+      
+        walls = createWalls(game);
+        gameObjects = createObjects(game);
+    		
+	      lightPacket.setupBackground();
+        cursors = game.input.keyboard.createCursorKeys();
 
-        lightarray = createMap(game);
-        
-
-        //player = new Player(game, 'hiderSheet', true);
-        socket.emit('new_player', {x: 0, y: 0});
-
-        //listeners
-        //socket.on('add_player', addPlayer);
-
-
-
-        //var walls = game.add.physicsGroup();
-
-        
-		
-
-        var walls = game.add.group();
-		
-		lightPacket.setupBackground();
-
-        //player = new Player(game, 'hiderSheet', true);
-
-
-        //hider = new Hider(game, 200, 50, 'hiderSheet');
-        //seeker = new Seeker(game, 100, 50, 'seekerSheet');
-
-
-        var walls = game.add.physicsGroup();
-
-        
-        // create the walls
-        // var wallBottom = walls.create(0, (game.world.height - 10), 'wall');
-        // var wallTop = walls.create(0,  -10, 'wall');
-        // var wallLeft = walls.create(-10,  0, 'wallSide');
-        // var wallRight = walls.create(game.world.width - 20,  0, 'wallSide');
-        // game.physics.p2.enable(walls);
-
-    
-        var worldMaterial = game.physics.p2.createMaterial('worldMaterial');
-        var boxMaterial = game.physics.p2.createMaterial('worldMaterial');
-        game.physics.p2.setWorldMaterial(worldMaterial, true, true, true, true);
-
-
-        // creating game 
-        var gameObjects = game.add.physicsGroup();
-        gameObjects.enableBody = true;
-        
-        for(var i = 0; i < 5; i++){
-            metalCrate = new dynamicObject(game, 'metalCrate_0' + (i + 1), game.world.centerX + (70 * i), game.world.centerY - 50);
-            metalCrate.scale.setTo(0.75, 0.75);
-            metalCrate.body.setMaterial(boxMaterial);
-        }
+        lightarray = createLights(game);
 
         woodenCrate  = game.add.sprite(game.world.centerX - (50 * i), game.world.centerY, 'woodenCrate' );
         game.physics.p2.enable(woodenCrate);
         woodenCrate.body.static = true;
-        
-      
-       cursors = game.input.keyboard.createCursorKeys();
-
-        //var woodenCrate  = new staticObject(game, 'woodenCrate', game.world.centerX - (50 * i), game.world.centerY);
-        
 
     }
     
 
     function update () {
 
-
-        
-
-        
-
 		lightPacket.lightUpdate(woodenCrate,lightarray, player,true);
-
-
-
-
+      
     }
-
-    function render () {
-      game.debug.spriteInfo(player, 32, 32);
-    }
-
-
+  
 </script>
 
 </body>
