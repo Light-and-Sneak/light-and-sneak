@@ -42,7 +42,7 @@ gameState.prototype = {
         player = new Hider(game, 100, 100, 'hiderSheet');
 
         for(var i = 0; i < 2; i++){
-          guards.push(new guard(game, 100, 100, 'seekerSheet'));
+          guards.push(new Guard(game, 100, 100, 'seekerSheet'));
         }
 
         guards[0].body.x = 615;
