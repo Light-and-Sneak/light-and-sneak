@@ -17,7 +17,7 @@ gameState.prototype = {
     game.load.spritesheet('coin', 'assets/coin-spriteSheet.png',44,40);
     game.load.spritesheet('hiderSheet', 'assets/hider-spriteSheet.png',50,50);
     game.load.spritesheet('seekerSheet', 'assets/seeker-spriteSheet.png',50,50);
-    game.load.audio('backgroundMusic', ['assets/audio/background.mp3', 'assets/audio/background.ogg']);
+    game.load.audio('backgroundMusic', ['assets/audio/newBackground.mp3', 'assets/audio/newBackground.ogg']);
     game.load.audio('coinPickup', ['assets/audio/coin.wav', 'assets/audio/coin.ogg']);
     game.load.audio('alarm', ['assets/audio/Alarm.wav', 'assets/audio/Alarm.ogg']);
 
