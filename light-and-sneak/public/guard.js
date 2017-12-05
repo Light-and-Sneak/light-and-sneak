@@ -1,4 +1,4 @@
-function guard (game, width, height, sprite) {
+function Guard (game, width, height, sprite) {
   var guard = game.add.sprite(width, height, sprite);
 
   guard.scale.setTo(0.6, 0.6);
