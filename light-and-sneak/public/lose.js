@@ -11,7 +11,7 @@ loseState.prototype = {
     });
     text.setTextBounds(0, 100, 800, 100);
 
-    var reset = game.add.text(0, 0, "Press enter to restart", {
+    var reset = game.add.text(0, 0, "Press enter to go to menu", {
       font: "20px Arial",
       fill: "#0a00ff",
       align: "left",
