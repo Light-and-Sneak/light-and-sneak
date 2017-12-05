@@ -12,8 +12,6 @@ function Light(game,locx, locy, flicker,startState, flickerRate, moving, changex
 	var rate = flickerRate;
 	var timerMoving;
 	var timer;
-	console.log("light Made");
-	//this.createTimer();
 	
 	this.offOn = function(){
 		if(this.on){
@@ -22,18 +20,14 @@ function Light(game,locx, locy, flicker,startState, flickerRate, moving, changex
 		else{
 			this.on = true;
 		}
-		console.log("in offOn");
 	};
 	
-	this.createTimer = function(){
-		//this.timerMoving = game.time.create(false);
-		//this.timerMoving.loop(10000,this.move,this); 
+	this.createTimer = function(){ 
 		if(flicker){
 			timer = game.time.create(false);
 			timer.loop(rate,this.offOn,this);
 			console.log("to start");
 			timer.start();
-			console.log("past start");
 		}
 		if(moving){
 			

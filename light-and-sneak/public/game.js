@@ -23,57 +23,69 @@ gameState.prototype = {
 
   },
   create: function(){
+    clock = 0;
+		inLight = false;
+        backgroundMusic = game.add.audio('backgroundMusic');
+        alarmSound = game.add.audio('alarm');
+        backgroundMusic.loop = true;
+        backgroundMusic.play();
 
-    //Initialize sounds
-    backgroundMusic = game.add.audio('backgroundMusic');
-    alarmSound = game.add.audio('alarm');
-    backgroundMusic.loop = true;
-    backgroundMusic.play();
+        // set the physics to be P2
+        game.physics.startSystem(Phaser.Physics.P2JS);
+        // set the friction of the game world
+        game.physics.p2.world.defaultContactMaterial.friction = 1;
+        //game.physics.p2.restitution = 0.9;
+        game.physics.p2.world.setGlobalStiffness(1e5);
+        
+        background = game.add.sprite(0,0, 'background');
+        
+        player = new Hider(game, 100, 100, 'hiderSheet');
 
-    // set the physics to be P2
-    game.physics.startSystem(Phaser.Physics.P2JS);
-    // set the friction of the game world
-    game.physics.p2.world.defaultContactMaterial.friction = 1;
-    //game.physics.p2.restitution = 0.9;
-    game.physics.p2.world.setGlobalStiffness(1e5);
+        for(var i = 0; i < 2; i++){
+          guards.push(new guard(game, 100, 100, 'seekerSheet'));
+        }
 
-    //Initialize our background, player, and guards
-    background = game.add.sprite(0,0, 'background');
-    player = new Hider(game, 100, 100, 'hiderSheet');
-    for(var i = 0; i < 2; i++){
-      guards.push(new Guard(game, 100, 100, 'seekerSheet'));
-    }
+        guards[0].body.x = 615;
+        guards[0].body.y = 65;
+        guards[0].angle = 180;
+        guards[1].body.x = 90;
+        guards[1].body.y = 300;
+        guards[1].angle = 0;
+      
+        walls = createWalls(game);
+        gameObjects = createObjects(game);
+		
+    		
+	     lightPacket.setupBackground();
+        cursors = game.input.keyboard.createCursorKeys();
 
-    //Set the initial positions of our guards
-    guards[0].body.x = 615;
-    guards[0].body.y = 65;
-    guards[0].angle = 180;
-    guards[1].body.x = 90;
-    guards[1].body.y = 300;
-    guards[1].angle = 0;
+        lightarray = createLights(game);
 
-    //Create our game objects
-    walls = createWalls(game);
-    gameObjects = createObjects(game);
+       
 
-
-    lightPacket.setupBackground();
-    cursors = game.input.keyboard.createCursorKeys();
-    lightarray = createLights(game);
-    woodenCrate  = game.add.sprite(game.world.centerX - (50), game.world.centerY, 'woodenCrate' );
-    game.physics.p2.enable(woodenCrate);
-    woodenCrate.body.static = true;
-    var coin = new Coin(game, 100, 200, 'coin');
-    player.body.onBeginContact.add(player.blockHit, this);
-
-
+        var coin = new Coin(game, Math.floor(Math.random() * 737), Math.floor(Math.random() * 415), 'coin');
+        
+        player.body.onBeginContact.add(player.blockHit, this);
+        
   },
 
   update: function() {
 
-    testBool = lightPacket.lightUpdate(gameObjects,lightarray,walls, player,guards);
-    console.log(testBool);
-    if(testBool){game.state.start('lose');}
+    	
+		inLight = lightPacket.lightUpdate(gameObjects,lightarray,walls, player,guards);
+    
+      if(inLight[0]){
+          if(inLight[1]){
+            game.state.start("lose");
+          }
+          clock++;
+      } else{
+        clock = 0;
+      }
+
+      if(clock >= 25){
+        game.state.start("lose");
+      }
 
     if(guards[0].body.y <= 65){
       guards[0].body.moveBackward(50);
@@ -92,5 +104,6 @@ gameState.prototype = {
       game.add.tween(guards[1]).to( {angle: 0}, 500, Phaser.Easing.Linear.None, true);
     }
   }
-}
+};
+
 

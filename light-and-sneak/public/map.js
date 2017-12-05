@@ -35,7 +35,7 @@ function createWalls(game){
         walls.push(wallBottom);
     }
 
-    console.log(walls);
+    
 
     return walls;
 };
@@ -51,17 +51,17 @@ function createObjects(){
         gameObjects.push(metalCrate);
     }
 
-        gameObjects.push(new staticObject(game, 'metalCrate_01', 210, 350));
+        gameObjects.push(new dynamicObject(game, 'metalCrate_01', 210, 350));
         gameObjects.push(new dynamicObject(game, 'spaceCrate', 260, 350));
-        gameObjects.push(new staticObject(game, 'metalCrate_06', 470, 350));
+        gameObjects.push(new dynamicObject(game, 'metalCrate_06', 470, 350));
         gameObjects.push(new dynamicObject(game, 'spaceCrate', 520, 350));
-        gameObjects.push(new staticObject(game, 'metalCrate_01', 310, 50));
+        gameObjects.push(new dynamicObject(game, 'metalCrate_01', 310, 50));
         gameObjects.push(new dynamicObject(game, 'spaceCrate', 360, 50));
-        gameObjects.push(new staticObject(game, 'metalCrate_03', 470, 50));
+        gameObjects.push(new dynamicObject(game, 'metalCrate_03', 470, 50));
         gameObjects.push(new dynamicObject(game, 'metalCrate_01', 520, 50));
         
         gameObjects.push(new dynamicObject(game, 'metalCrate_05', 120, 75));
-        gameObjects.push(new staticObject(game, 'metalCrate_02', 600, 300));
+        gameObjects.push(new dynamicObject(game, 'metalCrate_02', 589, 280));
         gameObjects.push(new dynamicObject(game, 'metalCrate_02', 650, 350));
         gameObjects.push(new dynamicObject(game, 'spaceCrate', 700, 50));
 

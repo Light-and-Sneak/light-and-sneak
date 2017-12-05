@@ -6,7 +6,20 @@ function Lights(gameObject){
 	var walls;
 	var player;
 	var lose;
+	var lightColorStart;
+	var lightColorStop;
+	var lightChanged;
+	var guardLight;
+	var caughtByGuard;
+	var isGuard;
+	var info = [];
+	
     this.setupBackground = function() {
+		this.isGuard = false;
+		this.caughtByGuard = false;
+		this.guardLight = 'rgb(255,255,255)';
+		this.lightColorStart = 'rgba(255,255,255,1.0)';
+		this.lightColorStop = 'rgba(255,255,255,0.0)';
         this.bitmap = gameObject.add.bitmapData(gameObject.width, gameObject.height);
         this.bitmap.context.fillStyle = 'rgb(255,255,255)';
         this.bitmap.context.strokeStyle = 'rgb(255,255,255)';
@@ -15,19 +28,18 @@ function Lights(gameObject){
 		this.lose = false;
 		
         lightBitmap.blendMode = Phaser.blendModes.MULTIPLY;
-		//this.light = gameObject.add.sprite(gameObject.width/2,gameObject.height/2)
-		//this.light.anchor.setTo(0.5,0.5);
+	
 		timer = gameObject.time.create(false);
 		timer.loop(2000,this.updatesize,this);
 		timer.start();
-		//gameObject.input.activePointer.x = gameObject.width/2;
-		//gameObject.input.activePointer.y = gameObject.height/2;
+		
     }
 	this.updatesize = function(){
-		this.scaleSize += .1;
+		this.scaleSize += .025;
 	}
     this.lightUpdate = function(crate,lights,walls,player,bots){
-		
+		info = [];
+		this.lose = false;
 		this.crate = crate;
 		this.player = player;
 		this.walls = walls;
@@ -35,6 +47,8 @@ function Lights(gameObject){
 		this.bitmap.context.fillRect(0,0,gameObject.width,gameObject.height);
 		
 		for(i = 0; i < lights.length; i++){
+			this.lightChanged = false;
+			this.isGuard = false;
 			this.lightx = lights[i].locationx - 6;
 			this.lighty = lights[i].locationy- 5;
 			this.size = lights[i].size;
@@ -42,8 +56,8 @@ function Lights(gameObject){
 			if(lights[i].on){
 				var pointsOfIntersect = [];
 				var attempt = player.rotation - (5*(Math.PI/12));
-				for(var a = 0; a < 2*(Math.PI); a += .1){
-					var ray = new Phaser.Line(this.lightx, this.lighty, (this.lightx + Math.cos(a) * this.size), (this.lighty + Math.sin(a) * this.size));
+				for(var a = 0; a < 6.282; a += .15){
+					var ray = new Phaser.Line(this.lightx, this.lighty, (this.lightx + Math.cos(a) * this.size * this.scaleSize), (this.lighty + Math.sin(a) * this.size * this.scaleSize));
 					
 					var intersect = this.getIntersection(ray,this.crate,this.walls);
 					
@@ -58,9 +72,10 @@ function Lights(gameObject){
 			
 				
 				gradient = this.bitmap.context.createRadialGradient(
-					this.lightx,this.lighty, this.size * 0.75, this.lightx,this.lighty,this.size);
-				gradient.addColorStop(0,'rgba(255,255,255,1.0');
-				gradient.addColorStop(1,'rgba(255,255,255,0.0');
+					this.lightx,this.lighty, this.size * 0.75 * this.scaleSize, this.lightx,this.lighty,this.size * this.scaleSize);
+			
+				gradient.addColorStop(0,this.lightColorStart);
+				gradient.addColorStop(1,this.lightColorStop);
 			
 				this.bitmap.context.beginPath();
 				this.bitmap.context.fillStyle = gradient;
@@ -80,6 +95,8 @@ function Lights(gameObject){
 		
 			
 				for(b = 0; b < bots.length; b++){
+					this.isGuard = true;
+					this.lightChanged = false;
 					this.lightx = bots[b].body.x - 6;
 					this.lighty = bots[b].body.y- 5;
 					
@@ -89,7 +106,7 @@ function Lights(gameObject){
 					
 						var pointsOfIntersect = [];
 						var attempt = bots[b].angle * (Math.PI/180) - (5*(Math.PI/12));
-						for(var a = bots[b].angle * (Math.PI/180) - (5*(Math.PI/12)); a >( attempt - (Math.PI/6)); a -= Math.PI/360){
+						for(var a = bots[b].angle * (Math.PI/180) - (5*(Math.PI/12)); a >( attempt - (Math.PI/6)); a -= .15){
 							var ray = new Phaser.Line(this.lightx, this.lighty, this.lightx + Math.cos(a) * 150, this.lighty + Math.sin(a) * 150);
 							
 							var intersect = this.getIntersection(ray,this.crate,this.walls);
@@ -105,8 +122,7 @@ function Lights(gameObject){
 				
 						
 						this.bitmap.context.beginPath();
-						
-						this.bitmap.context.fillStyle = 'rgb(255, 255, 255)';
+						this.bitmap.context.fillStyle = this.guardLight;
 						
 						this.bitmap.context.moveTo(this.lightx,this.lighty);
 						
@@ -118,9 +134,11 @@ function Lights(gameObject){
 						this.bitmap.context.closePath();
 						this.bitmap.context.fill();
 						
-						//this.bitmap.dirty = true;
+						this.bitmap.dirty = true;
 				}
-		return this.lose;
+		info.push(this.lose);
+		info.push(this.caughtByGuard);
+		return info;
 	}
 			
 		
@@ -130,7 +148,7 @@ function Lights(gameObject){
 		this.crate = crate;
 		this.walls = walls;
 		
-		var distanceOut = Number.POSITIVE_INFINITY;
+		var distanceOut = gameObject.math.distance(ray.start.x,ray.start.y,ray.end.x,ray.end.y);
 		var closestIntersection = null;
 		var lines = [];
 		var correctionx;
@@ -179,14 +197,37 @@ function Lights(gameObject){
 		for(var i = 0; i< playerBox.length; i++){
 				var playerIntersect = Phaser.Line.intersects(ray,playerBox[i]);
 				if(playerIntersect){
-					this.lose = true;
-					//distance = gameObject.math.distance(ray.start.x,ray.start.y,playerIntersect.x,playerIntersect.y);
-					// if(distance < 100){
+					//this.lose = true;
+					distance = gameObject.math.distance(ray.start.x ,ray.start.y,playerIntersect.x,playerIntersect.y) + 15;
+					if(distance < distanceOut){
+						
 					// 	distanceOut = distance;
 					// 	closestIntersection = intersect;
-					// 	this.lose = true;
-					// }
+						this.lightChanged = true;
+						this.lightColorStart = 'rgba(255,0,0,1.0)';
+						this.lightColorStop = 'rgba(255,0,0,0.0)';
+						this.guardLight = 'rgb(255,0,0)';
+					 	this.lose = true;
+						if(this.isGuard){
+							this.caughtByGuard = true;
+						}
+					 }
+					else{
+						if(!this.lightChanged){
+							this.lightColorStart = 'rgba(255,255,200,1.0)';
+							this.lightColorStop = 'rgba(255,255,200,0.0)';
+							this.guardLight = 'rgb(255,255,200)';
+						}
+					}
 				}
+				else{
+					if(!this.lightChanged){
+						this.lightColorStart = 'rgba(255,255,200,1.0)';
+						this.lightColorStop = 'rgba(255,255,200,0.0)';
+						this.guardLight = 'rgb(255,255,200)';
+					}
+				}	 
+				
 		
 		}
 		return closestIntersection;
