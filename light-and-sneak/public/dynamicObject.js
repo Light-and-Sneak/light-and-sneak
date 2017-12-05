@@ -4,7 +4,7 @@ function dynamicObject(game, sprite, x, y){
      // cenable physics
      dynamicObject.scale.setTo(0.75, 0.75);
      game.physics.p2.enable(dynamicObject);
-     dynamicObject.body.mass = 200;
+     dynamicObject.body.mass = 20;
      dynamicObject.body.fixedRotation = true;
      dynamicObject.body.damping = 0.95;
 

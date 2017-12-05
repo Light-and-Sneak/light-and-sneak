@@ -58,9 +58,13 @@
     var guards = [];
     var lightarray;
     var cursors;
-
+	var timerBool;
+	var inLight;
+	var clock;
+	
     function create() {
-
+		clock = 0;
+		inLight = false;
         backgroundMusic = game.add.audio('backgroundMusic');
         alarmSound = game.add.audio('alarm');
         backgroundMusic.loop = true;
@@ -78,7 +82,7 @@
         
         background = game.add.sprite(0,0, 'background');
         
-        player = new Hider(game, 100, 100, 'seekerSheet');
+        player = new Hider(game, 100, 100, 'hiderSheet');
 
         for(var i = 0; i < 2; i++){
           guards.push(new guard(game, 100, 100, 'seekerSheet'));
@@ -100,23 +104,34 @@
 
         lightarray = createLights(game);
 
-        woodenCrate  = game.add.sprite(game.world.centerX - (50), game.world.centerY, 'woodenCrate' );
-        game.physics.p2.enable(woodenCrate);
-        woodenCrate.body.static = true;
+       
 
-        var coin = new Coin(game, 100, 200, 'coin');
+        var coin = new Coin(game, Math.floor(Math.random() * 737), Math.floor(Math.random() * 415), 'coin');
         
         player.body.onBeginContact.add(player.blockHit, this);
         
 
     }
     
-
     function update () {
-
-		testBool = lightPacket.lightUpdate(gameObjects,lightarray,walls, player,guards);
-        console.log(testBool);
-        if(testBool){game.state.start('lose');}
+		
+		inLight = lightPacket.lightUpdate(gameObjects,lightarray,walls, player,guards);
+		
+		
+        if(inLight[0]){
+			if(inLight[1]){
+				game.state.start("lose");
+			}
+			clock++
+		}
+		else{
+			clock = 0;
+		}
+		if(clock >= 25){
+			game.state.start("lose");
+		}
+			
+		
 		moveGuards();
     }
 
